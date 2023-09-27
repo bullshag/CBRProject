@@ -112,8 +112,29 @@ namespace WinFormsApp1
 
             return characterList;
         }
-    
 
+        public List<npcSlot> GenerateNpcSlotList(List<npcData> npcDataList)
+        {
+            List<npcSlot> npcSlotList = new List<npcSlot>();
+
+            int slotID = 1; // Initialize slotID
+            foreach (var npc in npcDataList)
+            {
+                npcSlot newNpcSlot = new npcSlot
+                {
+                    cid = npc.npcID, // NPC ID
+                    slotID = slotID, // Assign slotID
+                    speed = npc.npcSpeed, // NPC speed
+                    alive = true, // Initialize as alive
+                    _npcData = npc // Assign the npcData
+                };
+
+                npcSlotList.Add(newNpcSlot);
+                slotID++; // Increment slotID for the next NPC
+            }
+
+            return npcSlotList;
+        }
         public List<npcData> GenerateNPCList(List<characterData> playerCharacters, int zoneID)
         {
             string connectionString = "Server=localhost;Database=world;User ID=root;Password=123321;";
@@ -150,7 +171,10 @@ namespace WinFormsApp1
                         npcID = reader.GetInt32("npcID"),
                         npcName = reader.GetString("npcName"),
                         npcMaxHP = reader.GetInt32("npcHP"),
+                        npcCurrentHP = reader.GetInt32("npcHP"),
                         npcMaxMana = reader.GetInt32("npcMana"),
+                        npcCurrentMana = reader.GetInt32("npcMana"),
+                        npcCurrentEnergy = reader.GetInt32("npcEnergy"),
                         npcMaxEnergy = reader.GetInt32("npcEnergy"),
                         npcStrength = reader.GetInt32("npcSTR"),
                         npcDex = reader.GetInt32("npcDEX"),
