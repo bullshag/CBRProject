@@ -98,6 +98,7 @@ namespace WinFormsApp1
         {
             persistantData.hubScreen.Visible = false;
             persistantData.battleScreen.Visible = true;
+            persistantData.battleScreen.startBattle();
         }
     }
 }
