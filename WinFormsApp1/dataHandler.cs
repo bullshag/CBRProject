@@ -8,12 +8,13 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Diagnostics;
 using static WinFormsApp1.battleHandler;
+using CBPRM;
+using static CBPRM.actionLibrary;
 
 namespace WinFormsApp1
 {
     public class dataHandler
     {
-
         public List<battleHandler.characterSlot> generateFriendlyList()
         {
             List<battleHandler.characterSlot> characterList = new List<battleHandler.characterSlot>();
@@ -97,6 +98,7 @@ namespace WinFormsApp1
                                     charIntelligence = reader.GetInt32("charIntelligence"),
                                     charFocus = reader.GetInt32("charFocus"),
                                     charSpeed = reader.GetInt32("charSpeed"),
+                                    TimeUntilNextAction = 2500 - (reader.GetInt32("charSpeed") * reader.GetInt32("charFocus")),
                                     charMaxEXP = reader.GetInt32("charMaxEXP"),
                                     charCurrentEXP = reader.GetInt32("charCurrentEXP"),
 
@@ -105,7 +107,12 @@ namespace WinFormsApp1
                             reader.Close(); // Important: Close the reader before the next iteration
                         }
                     }
-
+                    slot._charData.loadActions();
+                    slot._charData.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
+                    if (slot._charData.charBackgroundBonus == 4)
+                    {
+                        slot._charData.AvailableActions.Add(persistantData.actionLibrary.SpellAttackAction);
+                    }
                     characterList[i] = slot; // Update the struct in the list
                 }
             }
@@ -185,9 +192,11 @@ namespace WinFormsApp1
                         npcSkill1 = reader.GetInt32("npcSkill1"),
                         npcSkill2 = reader.GetInt32("npcSkill2"),
                         npcSkill3 = reader.GetInt32("npcSkill3"),
+                        TimeUntilNextAction = 2500 - (reader.GetInt32("npcSpeed") * reader.GetInt32("npcFocus")),
                         maxOnScreen = reader.GetInt32("maxOnScreen")
                     };
-
+                    npc.loadActions();
+                    npc.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
                     availableNPCs.Add(npc);
                 }
 
@@ -239,7 +248,7 @@ namespace WinFormsApp1
                 {
                     characterData charData = new characterData
                     {
-                        charUID = reader.GetInt32("charuid"),
+                    charUID = reader.GetInt32("charuid"),
                         charName = reader.GetString("charName"),
                         charMaxHP = reader.GetInt32("charMaxHP"),
                         charCurrentHP = reader.GetInt32("charCurrentHP"),
@@ -255,7 +264,7 @@ namespace WinFormsApp1
                         charMaxEXP = reader.GetInt32("charMaxEXP"),
                         charCurrentEXP = reader.GetInt32("charCurrentEXP"),
                         charBackgroundBonus = reader.GetInt32("charBackgroundBonus")
-                    };
+                };
                     playerCharacters.Add(charData);
                 }
             }
@@ -293,6 +302,46 @@ namespace WinFormsApp1
                     string insertQuery = "INSERT INTO characters (accuid, charName, charMaxHP, charCurrentHP, charMaxMana, charCurrentMana, charMaxEnergy, charCurrentEnergy, charStrength, charDex, charIntelligence, charFocus, charSpeed, charMaxEXP, charCurrentEXP, charBackgroundBonus) VALUES (@accuid, @charName, @charMaxHP, @charCurrentHP, @charMaxMana, @charCurrentMana, @charMaxEnergy, @charCurrentEnergy, @charStrength, @charDex, @charIntelligence, @charFocus, @charSpeed, @charMaxEXP, @charCurrentEXP, @charBackgroundBonus)";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection);
 
+     switch (backgroundID)
+                    {
+                        case 0:
+                            newChar.charDex += 2;
+                            newChar.charStrength += 2;
+                            newChar.charFocus += 2;
+                            newChar.charSpeed += 2;
+                            break;
+                            case 1:
+                            newChar.charMaxHP = (int)((double)newChar.charMaxHP * 1.10f);
+                            newChar.charCurrentHP = newChar.charMaxHP;
+
+                            newChar.charMaxMana = (int)((double)newChar.charMaxMana * 1.10f);
+                            newChar.charCurrentMana = newChar.charMaxMana;
+
+
+                            newChar.charMaxEnergy = (int)((double)newChar.charMaxEnergy * 1.10f);
+                            newChar.charCurrentEnergy = newChar.charMaxEnergy;
+
+                            break;
+                            case 2:
+                            newChar.charDex += 1;
+                            newChar.charStrength += 1;
+                            newChar.charIntelligence += 1;
+                            break;
+
+                            case 3:
+
+                            newChar.charMaxHP = (int)((double)newChar.charMaxHP * 1.20f);
+                            newChar.charCurrentHP = newChar.charMaxHP;
+                            break;
+                            case 4:
+
+                            newChar.charMaxMana = (int)((double)newChar.charMaxMana * 1.20f);
+                            newChar.charCurrentMana = newChar.charMaxMana;
+                            break;
+                        default:
+                            break;
+                    }
+
                     insertCmd.Parameters.AddWithValue("@accuid", accuid);
                     insertCmd.Parameters.AddWithValue("@charName", newChar.charName);
                     insertCmd.Parameters.AddWithValue("@charMaxHP", newChar.charMaxHP);
@@ -310,14 +359,7 @@ namespace WinFormsApp1
                     insertCmd.Parameters.AddWithValue("@charCurrentEXP", newChar.charCurrentEXP);
                     insertCmd.Parameters.AddWithValue("@charBackgroundBonus", newChar.charBackgroundBonus);
 
-                    switch (backgroundID)
-                    {
-                        case 0:
-
-                            break;
-                        default:
-                            break;
-                    }
+               
                     insertCmd.ExecuteNonQuery();
                     return true;  // Character successfully created
                 }

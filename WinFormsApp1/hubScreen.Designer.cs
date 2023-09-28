@@ -160,7 +160,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.Untitled;
+            pictureBox1.Image = CBPRM.Properties.Resources.Untitled;
             pictureBox1.Location = new Point(297, 32);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(429, 303);
