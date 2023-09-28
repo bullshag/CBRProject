@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CBPRM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace WinFormsApp1
         public static characterCreationScreen createCharacterScreen;
         public static dataHandler _dataHandler;
         public static battleScreen battleScreen;
+        public static actionLibrary actionLibrary;
         public static int persistantUID;
         public static bool chatEnabled;
         public static string chatNickname;
@@ -24,7 +26,8 @@ namespace WinFormsApp1
             createCharacterScreen = new characterCreationScreen();
             _dataHandler = new dataHandler();
             battleScreen = new battleScreen();
-
+            actionLibrary = new actionLibrary();
+            
         }
     }
 }

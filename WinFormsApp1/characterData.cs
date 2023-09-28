@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CBPRM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CBPRM.actionLibrary;
 
 namespace WinFormsApp1
 {
@@ -24,5 +26,14 @@ namespace WinFormsApp1
         public int charCurrentEXP;
         public int charUID;
         public int charBackgroundBonus;
-    }
+
+        public float TimeUntilNextAction;
+        public List<GameAction> AvailableActions { get; set; }
+
+        public void loadActions()
+        {
+            AvailableActions = new List<GameAction>();
+        }
+}
+
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             charWindow1 = new GroupBox();
             energy_Label1 = new Label();
             manaLabel1 = new Label();
@@ -171,6 +172,7 @@
             label28 = new Label();
             label29 = new Label();
             label30 = new Label();
+            gameLoopTimer = new System.Windows.Forms.Timer(components);
             charWindow1.SuspendLayout();
             charWindow2.SuspendLayout();
             charWindow3.SuspendLayout();
@@ -1598,6 +1600,10 @@
             label30.TabIndex = 4;
             label30.Text = "HP: ";
             // 
+            // gameLoopTimer
+            // 
+            gameLoopTimer.Tick += gameLoopTimer_Tick;
+            // 
             // battleScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1809,5 +1815,6 @@
         private Label label28;
         private Label label29;
         private Label label30;
+        private System.Windows.Forms.Timer gameLoopTimer;
     }
 }
