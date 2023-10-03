@@ -59,7 +59,23 @@ namespace CBPRM
 
         public void increaseStat(int statID)
         {
-            
+            //stat ids:
+            //focus = 0
+            //speed = 1
+            // int = 2
+            // strength = 3
+            //hp = 4
+            //mana = 5
+            //energy = 6
+            //dex = 7
+            switch (statID)
+            {
+                case 0:
+                    selectedCharacter.statPoints -= 1;
+                    selectedCharacter.charFocus += 1;
+
+                    break;
+            }
             
         }
 
