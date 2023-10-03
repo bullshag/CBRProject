@@ -33,6 +33,16 @@
             label1 = new Label();
             button1 = new Button();
             characterPanel_foundChar = new Panel();
+            levelupButton = new Button();
+            statsEXPBar = new ProgressBar();
+            statsEnergyBar = new ProgressBar();
+            statsManaBar = new ProgressBar();
+            statsHPBar = new ProgressBar();
+            statsEXPLabel = new Label();
+            statsEnergyLabel = new Label();
+            statsManaLabel = new Label();
+            statsHPLabel = new Label();
+            label5 = new Label();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
@@ -94,6 +104,16 @@
             // 
             characterPanel_foundChar.BackColor = SystemColors.ButtonShadow;
             characterPanel_foundChar.BorderStyle = BorderStyle.FixedSingle;
+            characterPanel_foundChar.Controls.Add(levelupButton);
+            characterPanel_foundChar.Controls.Add(statsEXPBar);
+            characterPanel_foundChar.Controls.Add(statsEnergyBar);
+            characterPanel_foundChar.Controls.Add(statsManaBar);
+            characterPanel_foundChar.Controls.Add(statsHPBar);
+            characterPanel_foundChar.Controls.Add(statsEXPLabel);
+            characterPanel_foundChar.Controls.Add(statsEnergyLabel);
+            characterPanel_foundChar.Controls.Add(statsManaLabel);
+            characterPanel_foundChar.Controls.Add(statsHPLabel);
+            characterPanel_foundChar.Controls.Add(label5);
             characterPanel_foundChar.Controls.Add(button5);
             characterPanel_foundChar.Controls.Add(button4);
             characterPanel_foundChar.Controls.Add(button3);
@@ -105,6 +125,96 @@
             characterPanel_foundChar.Size = new Size(281, 407);
             characterPanel_foundChar.TabIndex = 1;
             characterPanel_foundChar.Visible = false;
+            // 
+            // levelupButton
+            // 
+            levelupButton.Location = new Point(27, 265);
+            levelupButton.Name = "levelupButton";
+            levelupButton.Size = new Size(235, 23);
+            levelupButton.TabIndex = 14;
+            levelupButton.Text = "Level  Up!";
+            levelupButton.UseVisualStyleBackColor = true;
+            levelupButton.Visible = false;
+            // 
+            // statsEXPBar
+            // 
+            statsEXPBar.Location = new Point(27, 265);
+            statsEXPBar.Name = "statsEXPBar";
+            statsEXPBar.Size = new Size(235, 20);
+            statsEXPBar.TabIndex = 13;
+            statsEXPBar.Click += progressBar4_Click;
+            // 
+            // statsEnergyBar
+            // 
+            statsEnergyBar.Location = new Point(130, 193);
+            statsEnergyBar.Name = "statsEnergyBar";
+            statsEnergyBar.Size = new Size(132, 20);
+            statsEnergyBar.TabIndex = 12;
+            // 
+            // statsManaBar
+            // 
+            statsManaBar.Location = new Point(130, 170);
+            statsManaBar.Name = "statsManaBar";
+            statsManaBar.Size = new Size(132, 20);
+            statsManaBar.TabIndex = 11;
+            // 
+            // statsHPBar
+            // 
+            statsHPBar.Location = new Point(130, 147);
+            statsHPBar.Name = "statsHPBar";
+            statsHPBar.Size = new Size(132, 20);
+            statsHPBar.TabIndex = 10;
+            // 
+            // statsEXPLabel
+            // 
+            statsEXPLabel.AutoSize = true;
+            statsEXPLabel.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            statsEXPLabel.Location = new Point(82, 242);
+            statsEXPLabel.Name = "statsEXPLabel";
+            statsEXPLabel.Size = new Size(103, 20);
+            statsEXPLabel.TabIndex = 9;
+            statsEXPLabel.Text = "EXP: XXX/XXX";
+            statsEXPLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // statsEnergyLabel
+            // 
+            statsEnergyLabel.AutoSize = true;
+            statsEnergyLabel.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            statsEnergyLabel.Location = new Point(-1, 193);
+            statsEnergyLabel.Name = "statsEnergyLabel";
+            statsEnergyLabel.Size = new Size(125, 20);
+            statsEnergyLabel.TabIndex = 8;
+            statsEnergyLabel.Text = "Energy: XXX/XXX";
+            // 
+            // statsManaLabel
+            // 
+            statsManaLabel.AutoSize = true;
+            statsManaLabel.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            statsManaLabel.Location = new Point(8, 168);
+            statsManaLabel.Name = "statsManaLabel";
+            statsManaLabel.Size = new Size(116, 20);
+            statsManaLabel.TabIndex = 7;
+            statsManaLabel.Text = "Mana: XXX/XXX";
+            // 
+            // statsHPLabel
+            // 
+            statsHPLabel.AutoSize = true;
+            statsHPLabel.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            statsHPLabel.Location = new Point(27, 148);
+            statsHPLabel.Name = "statsHPLabel";
+            statsHPLabel.Size = new Size(97, 20);
+            statsHPLabel.TabIndex = 6;
+            statsHPLabel.Text = "HP: XXX/XXX";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Location = new Point(82, 118);
+            label5.Name = "label5";
+            label5.Size = new Size(106, 20);
+            label5.TabIndex = 5;
+            label5.Text = "Character Info";
             // 
             // button5
             // 
@@ -136,6 +246,7 @@
             button3.TabIndex = 2;
             button3.Text = "Skill Screen";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // listBox1
             // 
@@ -145,8 +256,9 @@
             listBox1.Items.AddRange(new object[] { "Aaaaa", "Bbbbb", "Ccccc", "Ddddd", "Eeeee", "Fffff", "Gggg", "Hhhhh", "Iiiiii", "Jjjjj" });
             listBox1.Location = new Point(3, 3);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(273, 324);
+            listBox1.Size = new Size(273, 100);
             listBox1.TabIndex = 1;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // button2
             // 
@@ -304,6 +416,7 @@
             characterPanel_noChar.ResumeLayout(false);
             characterPanel_noChar.PerformLayout();
             characterPanel_foundChar.ResumeLayout(false);
+            characterPanel_foundChar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             chatPanel.ResumeLayout(false);
             chatPanel.PerformLayout();
@@ -335,5 +448,15 @@
         private Label label3;
         private CheckBox checkBox1;
         private System.Windows.Forms.Timer timer1;
+        private Label statsEXPLabel;
+        private Label statsEnergyLabel;
+        private Label statsManaLabel;
+        private Label statsHPLabel;
+        private Label label5;
+        private ProgressBar statsEXPBar;
+        private ProgressBar statsEnergyBar;
+        private ProgressBar statsManaBar;
+        private ProgressBar statsHPBar;
+        private Button levelupButton;
     }
 }

@@ -19,102 +19,29 @@ namespace WinFormsApp1
         {
             List<battleHandler.characterSlot> characterList = new List<battleHandler.characterSlot>();
 
-            // Connection string for MySQL database
+            int slotID = 1; // Initialize slotID
 
-            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
-
-            try
+            foreach (characterData existingChar in persistantData.characterList)
             {
-                // Open the connection
-                conn.Open();
-
-                // SQL query to fetch characters based on accountID
-                string sql = "SELECT charuid, charSpeed FROM characters WHERE accuid = @accuid";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@accuid", persistantData.persistantUID);
-
-                // Execute the query
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                int slotID = 1; // Initialize slotID
-                while (rdr.Read())
+                battleHandler.characterSlot newCharacter = new battleHandler.characterSlot
                 {
-                    battleHandler.characterSlot newCharacter = new battleHandler.characterSlot
-                    {
-                        cid = rdr.GetInt32(0), // charUID
-                        slotID = slotID, // Assign slotID
-                        speed = rdr.GetInt32(1), // charSpeed
-                        alive = true // Initialize as alive
-                    };
+                    cid = existingChar.charUID, // Assuming charUID exists in characterData
+                    slotID = slotID, // Assign slotID
+                    speed = existingChar.charSpeed, // charSpeed
+                    alive = true, // Initialize as alive
+                    _charData = existingChar // Directly assign the existing characterData
+                };
 
-                    characterList.Add(newCharacter);
-                    slotID++; // Increment slotID for the next character
+                // Load actions and other initializations here
+                newCharacter._charData.loadActions();
+                newCharacter._charData.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
+                if (newCharacter._charData.charBackgroundBonus == 4)
+                {
+                    newCharacter._charData.AvailableActions.Add(persistantData.actionLibrary.SpellAttackAction);
                 }
 
-                rdr.Close();
-            }
-            catch (Exception ex)
-            {
-                // Handle any errors that occur during the connection
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                // Close the connection
-                conn.Close();
-            }
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-
-                for (int i = 0; i < characterList.Count; i++)
-                {
-                    characterSlot slot = characterList[i]; // Take a copy of the struct
-
-                    // SQL query to fetch characterData based on cid
-                    string query = "SELECT * FROM characters WHERE charuid = @cid";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@cid", slot.cid);
-
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                // Populate the characterData for the current slot
-                                slot._charData = new characterData
-                                {
-                                    charName = reader.GetString("charName"),
-                                    charMaxHP = reader.GetInt32("charMaxHP"),
-                                    charCurrentHP = reader.GetInt32("charCurrentHP"),
-                                    charMaxMana = reader.GetInt32("charMaxMana"),
-                                    charCurrentMana = reader.GetInt32("charCurrentMana"),
-                                    charMaxEnergy = reader.GetInt32("charMaxEnergy"),
-                                    charCurrentEnergy = reader.GetInt32("charCurrentEnergy"),
-                                    charStrength = reader.GetInt32("charStrength"),
-                                    charDex = reader.GetInt32("charDex"),
-                                    charIntelligence = reader.GetInt32("charIntelligence"),
-                                    charFocus = reader.GetInt32("charFocus"),
-                                    charSpeed = reader.GetInt32("charSpeed"),
-                                    TimeUntilNextAction = 2500 - (reader.GetInt32("charSpeed") * reader.GetInt32("charFocus")),
-                                    charMaxEXP = reader.GetInt32("charMaxEXP"),
-                                    charCurrentEXP = reader.GetInt32("charCurrentEXP"),
-
-                                };
-                            }
-                            reader.Close(); // Important: Close the reader before the next iteration
-                        }
-                    }
-                    slot._charData.loadActions();
-                    slot._charData.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
-                    if (slot._charData.charBackgroundBonus == 4)
-                    {
-                        slot._charData.AvailableActions.Add(persistantData.actionLibrary.SpellAttackAction);
-                    }
-                    characterList[i] = slot; // Update the struct in the list
-                }
+                characterList.Add(newCharacter);
+                slotID++; // Increment slotID for the next character
             }
 
             return characterList;
@@ -263,8 +190,14 @@ namespace WinFormsApp1
                         charSpeed = reader.GetInt32("charSpeed"),
                         charMaxEXP = reader.GetInt32("charMaxEXP"),
                         charCurrentEXP = reader.GetInt32("charCurrentEXP"),
-                        charBackgroundBonus = reader.GetInt32("charBackgroundBonus")
-                };
+                        charBackgroundBonus = reader.GetInt32("charBackgroundBonus"),
+                        charSkill1 = reader.GetInt32("charSkill1"),
+                        charSkill2 = reader.GetInt32("charSkill2"),
+                        charSkill3 = reader.GetInt32("charSkill3"),
+                        skillPoints = reader.GetInt32("skillpoints"),  // New field
+                        statPoints = reader.GetInt32("statpoints")     // New field
+
+                    };
                     playerCharacters.Add(charData);
                 }
             }
@@ -299,7 +232,7 @@ namespace WinFormsApp1
                 if (count == 0)
                 {
                     // Insert the new character into the database
-                    string insertQuery = "INSERT INTO characters (accuid, charName, charMaxHP, charCurrentHP, charMaxMana, charCurrentMana, charMaxEnergy, charCurrentEnergy, charStrength, charDex, charIntelligence, charFocus, charSpeed, charMaxEXP, charCurrentEXP, charBackgroundBonus) VALUES (@accuid, @charName, @charMaxHP, @charCurrentHP, @charMaxMana, @charCurrentMana, @charMaxEnergy, @charCurrentEnergy, @charStrength, @charDex, @charIntelligence, @charFocus, @charSpeed, @charMaxEXP, @charCurrentEXP, @charBackgroundBonus)";
+                    string insertQuery = "INSERT INTO characters (accuid, charName, charMaxHP, charCurrentHP, charMaxMana, charCurrentMana, charMaxEnergy, charCurrentEnergy, charStrength, charDex, charIntelligence, charFocus, charSpeed, charMaxEXP, charCurrentEXP, charBackgroundBonus, skillpoints, statpoints) VALUES (@accuid, @charName, @charMaxHP, @charCurrentHP, @charMaxMana, @charCurrentMana, @charMaxEnergy, @charCurrentEnergy, @charStrength, @charDex, @charIntelligence, @charFocus, @charSpeed, @charMaxEXP, @charCurrentEXP, @charBackgroundBonus, @skillpoints, @statpoints)";
                     MySqlCommand insertCmd = new MySqlCommand(insertQuery, connection);
 
      switch (backgroundID)
@@ -358,8 +291,10 @@ namespace WinFormsApp1
                     insertCmd.Parameters.AddWithValue("@charMaxEXP", newChar.charMaxEXP);
                     insertCmd.Parameters.AddWithValue("@charCurrentEXP", newChar.charCurrentEXP);
                     insertCmd.Parameters.AddWithValue("@charBackgroundBonus", newChar.charBackgroundBonus);
+                    insertCmd.Parameters.AddWithValue("@skillpoints", newChar.skillPoints);  // New field
+                    insertCmd.Parameters.AddWithValue("@statpoints", newChar.statPoints);    // New field
 
-               
+
                     insertCmd.ExecuteNonQuery();
                     return true;  // Character successfully created
                 }
@@ -378,7 +313,62 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
+        public List<characterData> LoadPlayerCharacters(int accountId)
+        {
+            List<characterData> characterList = new List<characterData>();
+            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
 
+            try
+            {
+                connection.Open();
+                string query = "SELECT * FROM characters WHERE accuid = @accountId";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@accountId", accountId);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                Debug.WriteLine("Checking...");
+                while (reader.Read())
+                {
+                    characterData character = new characterData
+                    {
+                        charName = reader.GetString("charName"),
+                        charMaxHP = reader.GetInt32("charMaxHP"),
+                        charCurrentHP = reader.GetInt32("charCurrentHP"),
+                        charMaxMana = reader.GetInt32("charMaxMana"),
+                        charCurrentMana = reader.GetInt32("charCurrentMana"),
+                        charMaxEnergy = reader.GetInt32("charMaxEnergy"),
+                        charCurrentEnergy = reader.GetInt32("charCurrentEnergy"),
+                        charStrength = reader.GetInt32("charStrength"),
+                        charDex = reader.GetInt32("charDex"),
+                        charIntelligence = reader.GetInt32("charIntelligence"),
+                        charSpeed = reader.GetInt32("charSpeed"),
+                        charFocus = reader.GetInt32("charFocus"),
+                        charMaxEXP = reader.GetInt32("charMaxEXP"),
+                        charCurrentEXP = reader.GetInt32("charCurrentEXP"),
+                        charSkill1 = reader.GetInt32("charSkill1"),
+                        charSkill2 = reader.GetInt32("charSkill2"),
+                        charSkill3 = reader.GetInt32("charSkill3"),
+                        skillPoints = reader.GetInt32("skillPoints"),
+                        statPoints = reader.GetInt32("statPoints")
+                        // Add other fields as needed
+                    };
+                    Debug.WriteLine("adding character...");
+                    characterList.Add(character);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                // Handle the exception (e.g., log the error, show an error message, etc.)
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return characterList;
+        }
         public void PopulateCharacterList(int accuid, ListBox listBox)
         {
 

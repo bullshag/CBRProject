@@ -64,11 +64,8 @@ namespace CBPRM
                     int charBaseDamage = character.charStrength + character.charDex + (int)(character.charMaxEXP / 10);
                     int npcDefense = (int)((npc.npcSpeed + npc.npcDex)/2);
 
-                    // Calculate the final damageRandom rand = new Random();
+                    // Calculate the final damage
 
-                    // Introduce a random factor, for example, a value between 0.8 and 1.2
-
-                    // Calculate the final damage with the random factor
                     int charFinalDamage = (int)((charBaseDamage - npcDefense) * randomFactor);
 
                     // Ensure the damage is at least 0
@@ -92,7 +89,7 @@ namespace CBPRM
             {
                 case Target.character:
                     int baseDamage = npc.npcIntelligence + npc.npcDex + (int)(npc.npcEXPValue / 10);
-                    int defense = character.charSpeed + character.charFocus;
+                    int defense = (int)((character.charSpeed / 3) + (character.charFocus / 2) +(character.charIntelligence / 3));
 
                     // Calculate the final damage
                     int finalDamage = baseDamage - defense;
@@ -122,5 +119,10 @@ namespace CBPRM
             return actionResult;
         }
     }
+}
+
+public class skillStrings
+{
+    public string AutoAttack = "";
 }
 

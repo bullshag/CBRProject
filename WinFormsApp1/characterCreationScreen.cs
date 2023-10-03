@@ -22,7 +22,9 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         public void updateCharScreen()
+#pragma warning restore IDE1006 // Naming Styles
         {
             label6.Text = "Points Remaining: " + (15 - statTotal);
             if (statTotal >= 15)
@@ -168,16 +170,16 @@ namespace WinFormsApp1
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (pointsRemaining > 0)
+            if (statTotal < 15)
             {
-                if (MessageBox.Show("You have unspent skill points. If you choose not to spend them now, they will be converted into experience points. Do you wish to continue making this character?", "Warning!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("You have " + (15 - statTotal) + " unspent skill points. If you choose not to spend them now, they will be converted into experience points. Do you wish to continue making this character?", "Warning!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     newCharacterSlot.charName = textBox1.Text;
                     newCharacterSlot.charCurrentEXP = 0;
                     newCharacterSlot.charCurrentHP = 100 + (newCharacterSlot.charStrength * 5);
                     newCharacterSlot.charMaxHP = newCharacterSlot.charCurrentHP;
                     newCharacterSlot.charMaxEXP = 25;
-                    newCharacterSlot.charCurrentEXP = pointsRemaining * 15;
+                    newCharacterSlot.charCurrentEXP = (15 - statTotal) * 15;
                     newCharacterSlot.charMaxMana = 100 + (newCharacterSlot.charIntelligence * 5);
                     newCharacterSlot.charCurrentMana = newCharacterSlot.charMaxMana;
                     newCharacterSlot.charBackgroundBonus = listBox1.SelectedIndex;
@@ -200,7 +202,9 @@ namespace WinFormsApp1
                         MessageBox.Show("Character name is already in use");
                     }
                 }
-            } else {
+            }
+            else
+            {
                 newCharacterSlot.charName = textBox1.Text;
                 newCharacterSlot.charCurrentEXP = 0;
                 newCharacterSlot.charCurrentHP = 100 + (newCharacterSlot.charStrength * 5);
@@ -230,7 +234,12 @@ namespace WinFormsApp1
                 }
 
             }
-  
+
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

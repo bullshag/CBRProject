@@ -18,8 +18,13 @@ namespace WinFormsApp1
         public static bool chatEnabled;
         public static string chatNickname;
         public static int playerZoneID;
+        public static List<characterData> characterList;
+        public static int money;
+        public static skillScreen skillScreen;
         public static void firstLoad()
         {
+            skillScreen = new skillScreen();
+            characterList = new List<characterData>();
             playerZoneID = 1;
             chatEnabled = false;
             hubScreen = new hubScreen();

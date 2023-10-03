@@ -200,6 +200,7 @@
             // 
             // charWindow1
             // 
+            charWindow1.BackColor = Color.LightSteelBlue;
             charWindow1.Controls.Add(energy_Label1);
             charWindow1.Controls.Add(manaLabel1);
             charWindow1.Controls.Add(hp_Label1);
@@ -260,6 +261,7 @@
             // 
             // hpBar1
             // 
+            hpBar1.ForeColor = Color.Green;
             hpBar1.Location = new Point(98, 22);
             hpBar1.Name = "hpBar1";
             hpBar1.Size = new Size(159, 12);
@@ -267,6 +269,7 @@
             // 
             // charWindow2
             // 
+            charWindow2.BackColor = Color.LightSteelBlue;
             charWindow2.Controls.Add(energy_Label2);
             charWindow2.Controls.Add(mana_Label2);
             charWindow2.Controls.Add(hp_Label2);
@@ -327,6 +330,7 @@
             // 
             // hpBar2
             // 
+            hpBar2.ForeColor = Color.Green;
             hpBar2.Location = new Point(98, 22);
             hpBar2.Name = "hpBar2";
             hpBar2.Size = new Size(159, 12);
@@ -334,6 +338,7 @@
             // 
             // charWindow3
             // 
+            charWindow3.BackColor = Color.LightSteelBlue;
             charWindow3.Controls.Add(energy_Label3);
             charWindow3.Controls.Add(mana_Label3);
             charWindow3.Controls.Add(hp_Label3);
@@ -394,6 +399,7 @@
             // 
             // hpBar3
             // 
+            hpBar3.ForeColor = Color.Green;
             hpBar3.Location = new Point(98, 22);
             hpBar3.Name = "hpBar3";
             hpBar3.Size = new Size(159, 12);
@@ -401,6 +407,7 @@
             // 
             // charWindow4
             // 
+            charWindow4.BackColor = Color.LightSteelBlue;
             charWindow4.Controls.Add(energy_Label4);
             charWindow4.Controls.Add(mana_Label4);
             charWindow4.Controls.Add(hp_Label4);
@@ -461,6 +468,7 @@
             // 
             // hpBar4
             // 
+            hpBar4.ForeColor = Color.Green;
             hpBar4.Location = new Point(98, 22);
             hpBar4.Name = "hpBar4";
             hpBar4.Size = new Size(159, 12);
@@ -468,6 +476,7 @@
             // 
             // charWindow5
             // 
+            charWindow5.BackColor = Color.LightSteelBlue;
             charWindow5.Controls.Add(energy_Label5);
             charWindow5.Controls.Add(mana_Label5);
             charWindow5.Controls.Add(hp_Label5);
@@ -529,6 +538,7 @@
             // 
             // hpBar5
             // 
+            hpBar5.ForeColor = Color.Green;
             hpBar5.Location = new Point(98, 22);
             hpBar5.Name = "hpBar5";
             hpBar5.Size = new Size(159, 12);
@@ -576,6 +586,7 @@
             // 
             // charWindow10
             // 
+            charWindow10.BackColor = Color.LightSteelBlue;
             charWindow10.Controls.Add(energy_Label10);
             charWindow10.Controls.Add(mana_Label10);
             charWindow10.Controls.Add(hp_Label10);
@@ -636,6 +647,7 @@
             // 
             // hpBar10
             // 
+            hpBar10.ForeColor = Color.Green;
             hpBar10.Location = new Point(98, 22);
             hpBar10.Name = "hpBar10";
             hpBar10.Size = new Size(159, 12);
@@ -643,6 +655,7 @@
             // 
             // charWindow6
             // 
+            charWindow6.BackColor = Color.LightSteelBlue;
             charWindow6.Controls.Add(energy_Label6);
             charWindow6.Controls.Add(mana_Label6);
             charWindow6.Controls.Add(hp_Label6);
@@ -703,6 +716,7 @@
             // 
             // hpBar6
             // 
+            hpBar6.ForeColor = Color.Green;
             hpBar6.Location = new Point(98, 22);
             hpBar6.Name = "hpBar6";
             hpBar6.Size = new Size(159, 12);
@@ -710,6 +724,7 @@
             // 
             // charWindow9
             // 
+            charWindow9.BackColor = Color.LightSteelBlue;
             charWindow9.Controls.Add(energy_Label9);
             charWindow9.Controls.Add(mana_Label9);
             charWindow9.Controls.Add(hp_Label9);
@@ -770,6 +785,7 @@
             // 
             // hpBar9
             // 
+            hpBar9.ForeColor = Color.Green;
             hpBar9.Location = new Point(98, 22);
             hpBar9.Name = "hpBar9";
             hpBar9.Size = new Size(159, 12);
@@ -777,6 +793,7 @@
             // 
             // charWindow7
             // 
+            charWindow7.BackColor = Color.LightSteelBlue;
             charWindow7.Controls.Add(energy_Label7);
             charWindow7.Controls.Add(mana_Label7);
             charWindow7.Controls.Add(hp_Label7);
@@ -837,6 +854,7 @@
             // 
             // hpBar7
             // 
+            hpBar7.ForeColor = Color.Green;
             hpBar7.Location = new Point(98, 22);
             hpBar7.Name = "hpBar7";
             hpBar7.Size = new Size(159, 12);
@@ -844,6 +862,7 @@
             // 
             // charWindow8
             // 
+            charWindow8.BackColor = Color.LightSteelBlue;
             charWindow8.Controls.Add(energy_Label8);
             charWindow8.Controls.Add(mana_Label8);
             charWindow8.Controls.Add(hp_Label8);
@@ -904,6 +923,7 @@
             // 
             // hpBar8
             // 
+            hpBar8.ForeColor = Color.Green;
             hpBar8.Location = new Point(98, 22);
             hpBar8.Name = "hpBar8";
             hpBar8.Size = new Size(159, 12);
@@ -1256,6 +1276,7 @@
             // 
             // npc_charWindow6
             // 
+            npc_charWindow6.BackColor = Color.Firebrick;
             npc_charWindow6.Controls.Add(npc_hpBar6);
             npc_charWindow6.Controls.Add(npc_manaBar6);
             npc_charWindow6.Controls.Add(npc_energyBar6);
@@ -1272,6 +1293,7 @@
             // 
             // npc_hpBar6
             // 
+            npc_hpBar6.ForeColor = Color.Green;
             npc_hpBar6.Location = new Point(43, 22);
             npc_hpBar6.Name = "npc_hpBar6";
             npc_hpBar6.Size = new Size(206, 12);
@@ -1325,6 +1347,7 @@
             // 
             // npc_charWindow7
             // 
+            npc_charWindow7.BackColor = Color.Firebrick;
             npc_charWindow7.Controls.Add(npc_hpBar7);
             npc_charWindow7.Controls.Add(npc_manaBar7);
             npc_charWindow7.Controls.Add(npc_energyBar7);
@@ -1341,6 +1364,7 @@
             // 
             // npc_hpBar7
             // 
+            npc_hpBar7.ForeColor = Color.Green;
             npc_hpBar7.Location = new Point(43, 22);
             npc_hpBar7.Name = "npc_hpBar7";
             npc_hpBar7.Size = new Size(206, 12);
@@ -1394,6 +1418,7 @@
             // 
             // npc_charWindow8
             // 
+            npc_charWindow8.BackColor = Color.Firebrick;
             npc_charWindow8.Controls.Add(npc_hpBar8);
             npc_charWindow8.Controls.Add(npc_manaBar8);
             npc_charWindow8.Controls.Add(npc_energyBar8);
@@ -1410,6 +1435,7 @@
             // 
             // npc_hpBar8
             // 
+            npc_hpBar8.ForeColor = Color.Green;
             npc_hpBar8.Location = new Point(43, 22);
             npc_hpBar8.Name = "npc_hpBar8";
             npc_hpBar8.Size = new Size(206, 12);
@@ -1464,6 +1490,7 @@
             // 
             // npc_charWindow9
             // 
+            npc_charWindow9.BackColor = Color.Firebrick;
             npc_charWindow9.Controls.Add(npc_hpBar9);
             npc_charWindow9.Controls.Add(npc_manaBar9);
             npc_charWindow9.Controls.Add(npc_energyBar9);
@@ -1533,6 +1560,7 @@
             // 
             // npc_charWindow10
             // 
+            npc_charWindow10.BackColor = Color.Firebrick;
             npc_charWindow10.Controls.Add(npc_hpBar10);
             npc_charWindow10.Controls.Add(npc_manaBar10);
             npc_charWindow10.Controls.Add(npc_energyBar10);
@@ -1549,6 +1577,7 @@
             // 
             // npc_hpBar10
             // 
+            npc_hpBar10.ForeColor = Color.Green;
             npc_hpBar10.Location = new Point(43, 22);
             npc_hpBar10.Name = "npc_hpBar10";
             npc_hpBar10.Size = new Size(206, 12);
