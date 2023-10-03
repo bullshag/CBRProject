@@ -26,6 +26,11 @@ namespace WinFormsApp1
         public int charCurrentEXP;
         public int charUID;
         public int charBackgroundBonus;
+        public int charSkill1;
+        public int charSkill2;
+        public int charSkill3;
+        public int skillPoints;
+        public int statPoints;
 
         public float TimeUntilNextAction;
         public List<GameAction> AvailableActions { get; set; }
@@ -34,6 +39,8 @@ namespace WinFormsApp1
         {
             AvailableActions = new List<GameAction>();
         }
+
+
 }
 
 }

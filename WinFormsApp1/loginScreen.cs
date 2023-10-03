@@ -11,7 +11,6 @@ namespace WinFormsApp1
         public loginScreen()
         {
             InitializeComponent();
-            persistantData.firstLoad();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,7 +36,7 @@ namespace WinFormsApp1
                 if (count == 0)
                 {
                     // Create a new account
-                    string createAccountQuery = "INSERT INTO accounts (uid, username, password) VALUES (0, @username, @password)";
+                    string createAccountQuery = "INSERT INTO accounts (uid, username, password, money) VALUES (0, @username, @password, 100)";
                     MySqlCommand createAccountCmd = new MySqlCommand(createAccountQuery, connection);
                     createAccountCmd.Parameters.AddWithValue("@username", username);
                     createAccountCmd.Parameters.AddWithValue("@password", password);  // Consider hashing the password
@@ -65,9 +64,9 @@ namespace WinFormsApp1
             string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             Debug.WriteLine("Trying to connect..");
-                 username = textBox1.Text;
+            username = textBox1.Text;
 
-                 password = textBox2.Text;
+            password = textBox2.Text;
             try
             {
                 connection.Open();
@@ -82,29 +81,33 @@ namespace WinFormsApp1
 
                 long count = (long)checkAccountCmd.ExecuteScalar();
 
-                string fetchUIDQuery = "SELECT uid FROM accounts WHERE username = @username AND password = @password";
-                MySqlCommand fetchUIDCmd = new MySqlCommand(fetchUIDQuery, connection);
-                fetchUIDCmd.Parameters.AddWithValue("@username", username);
-                fetchUIDCmd.Parameters.AddWithValue("@password", password);  // In a real application, consider hashing the password
+                string fetchUIDAndMoneyQuery = "SELECT uid, money FROM accounts WHERE username = @username AND password = @password";
+                MySqlCommand fetchUIDAndMoneyCmd = new MySqlCommand(fetchUIDAndMoneyQuery, connection);
+                fetchUIDAndMoneyCmd.Parameters.AddWithValue("@username", username);
+                fetchUIDAndMoneyCmd.Parameters.AddWithValue("@password", password);
 
-                object result = fetchUIDCmd.ExecuteScalar();
-
-                if (result != null)
+                using (MySqlDataReader reader = fetchUIDAndMoneyCmd.ExecuteReader())
                 {
-                    persistantData.persistantUID = Convert.ToInt32(result);
+                    if (reader.Read())
+                    {
+                        persistantData.persistantUID = reader.GetInt32("uid");
+                        persistantData.money = reader.GetInt32("money");
+                    }
                 }
-                if (count == 1)
+
+                if (persistantData.persistantUID > 0)
                 {
-                    MessageBox.Show("Logged in with UID: " + persistantData.persistantUID);
+                    MessageBox.Show("Logged in with UID: " + persistantData.persistantUID + " and money: " + persistantData.money);
                     persistantData.hubScreen.Visible = true;
+                    persistantData.hubScreen.populateCharacters();
                     this.Visible = false;
                 }
                 else
                 {
                     MessageBox.Show("Incorrect username or password.");
                 }
-
             }
+
 
             catch (Exception ex)
             {
@@ -115,10 +118,12 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
-
+    
         private void Form1_Load(object sender, EventArgs e)
         {
-       
+
+            persistantData.firstLoad();
         }
     }
 }
+

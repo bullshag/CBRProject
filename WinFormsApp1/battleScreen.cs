@@ -16,7 +16,7 @@ namespace WinFormsApp1
 {
     public partial class battleScreen : Form
     {
-        
+
         public List<battleHandler.characterSlot> friendlyCharList = new List<battleHandler.characterSlot>();
 
         public List<battleHandler.npcSlot> enemyNpcList = new List<battleHandler.npcSlot>();
@@ -242,7 +242,7 @@ namespace WinFormsApp1
             }
 
             // Update the actual NPC data in the list
-             if (enemyNpcList != null && enemyNpcList.Count > targetIndex)
+            if (enemyNpcList != null && enemyNpcList.Count > targetIndex)
             {
                 // Step 1: Retrieve the struct from the list
                 battleHandler.npcSlot npcSlot = enemyNpcList[targetIndex];
@@ -253,7 +253,7 @@ namespace WinFormsApp1
                 // Step 3: Put it back into the list at the same index
                 enemyNpcList[targetIndex] = npcSlot;
             }
-else
+            else
             {
                 // Handle the case where enemyNpcList is null or the targetIndex is out of range
                 Debug.WriteLine("enemyNpcList is null or targetIndex is out of range.");
@@ -323,6 +323,7 @@ else
                     enemyNpcList[i]._npcData.TimeUntilNextAction = 2500 - (enemyNpcList[i]._npcData.npcFocus * enemyNpcList[i]._npcData.npcSpeed);
                 }
             }
+            if (!combatStarted) { gameLoopTimer.Enabled = false; Debug.WriteLine("combat finished."); }
         }
     }
 }

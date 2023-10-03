@@ -127,6 +127,7 @@
             richTextBox1.Size = new Size(299, 122);
             richTextBox1.TabIndex = 1;
             richTextBox1.Text = "The Spellslinger excells in magical spells and mana regeneration.\n\n20% more maximum starting mana\nSpellcasting speed is increased by 50% of attack speed.";
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // button5
             // 
@@ -210,7 +211,7 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
-            // Form3
+            // characterCreationScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -228,7 +229,7 @@
             Controls.Add(strLabel);
             Controls.Add(label1);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "Form3";
+            Name = "characterCreationScreen";
             Text = "Form3";
             Load += Form3_Load;
             panel1.ResumeLayout(false);
