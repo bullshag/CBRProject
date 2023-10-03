@@ -51,7 +51,7 @@ namespace CBPRM
                     backgroundBonusLabel.Text = baseText + "Whenever you spend a stat point on health, you gain +5 to your maximum energy and mana. ";
                     break;
                 case 4:
-                    backgroundBonusLabel.Text = baseText + "When you increase your focus or intelligence, you also gain +10 maximum mana."
+                    backgroundBonusLabel.Text = baseText + "When you increase your focus or intelligence, you also gain +10 maximum mana.";
                     break;
                     performLevelUp();
             }
