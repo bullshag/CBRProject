@@ -56,7 +56,7 @@ namespace WinFormsApp1
             {
                 npcSlot newNpcSlot = new npcSlot
                 {
-                    cid = npc.npcID, // NPC ID
+                    cid = npc.spawnID, // NPC ID
                     slotID = slotID, // Assign slotID
                     speed = npc.npcSpeed, // NPC speed
                     alive = true, // Initialize as alive
@@ -71,6 +71,7 @@ namespace WinFormsApp1
         }
         public List<npcData> GenerateNPCList(List<characterData> playerCharacters, int zoneID)
         {
+            random = new Random();
             string connectionString = "Server=localhost;Database=world;User ID=root;Password=123321;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             List<npcData> npcList = new List<npcData>();
@@ -102,7 +103,9 @@ namespace WinFormsApp1
                 {
                     npcData npc = new npcData
                     {
-                        npcID = reader.GetInt32("npcID"),
+
+                        spawnID = GenerateRandomNumber(),
+                       
                         npcName = reader.GetString("npcName"),
                         npcMaxHP = reader.GetInt32("npcHP"),
                         npcCurrentHP = reader.GetInt32("npcHP"),
@@ -122,6 +125,8 @@ namespace WinFormsApp1
                         TimeUntilNextAction = 2500 - (reader.GetInt32("npcSpeed") * reader.GetInt32("npcFocus")),
                         maxOnScreen = reader.GetInt32("maxOnScreen")
                     };
+                    npc.npcID = npc.spawnID;
+                    Debug.WriteLine("Added spawn ID: " + npc.spawnID);
                     npc.loadActions();
                     npc.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
                     availableNPCs.Add(npc);
@@ -327,7 +332,6 @@ namespace WinFormsApp1
                 cmd.Parameters.AddWithValue("@accountId", accountId);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
-                Debug.WriteLine("Checking...");
                 while (reader.Read())
                 {
                     characterData character = new characterData
@@ -354,7 +358,6 @@ namespace WinFormsApp1
                         statPoints = reader.GetInt32("statPoints")
                         // Add other fields as needed
                     };
-                    Debug.WriteLine("adding character...");
                     characterList.Add(character);
                 }
             }
@@ -409,6 +412,13 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
+        private Random random;
+
+        public int GenerateRandomNumber()
+        {
+            return random.Next(1, 1001);
+        }
+    
 
         public bool RegisterChatUser(string nickName, int UID)
         {

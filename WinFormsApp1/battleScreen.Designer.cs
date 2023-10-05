@@ -174,6 +174,7 @@
             label30 = new Label();
             gameLoopTimer = new System.Windows.Forms.Timer(components);
             richTextBox1 = new RichTextBox();
+            timer1 = new System.Windows.Forms.Timer(components);
             charWindow1.SuspendLayout();
             charWindow2.SuspendLayout();
             charWindow3.SuspendLayout();
@@ -1643,6 +1644,7 @@
             // 
             // gameLoopTimer
             // 
+            gameLoopTimer.Interval = 1000;
             gameLoopTimer.Tick += gameLoopTimer_Tick;
             // 
             // richTextBox1
@@ -1654,6 +1656,11 @@
             richTextBox1.TabIndex = 13;
             richTextBox1.Text = "";
             richTextBox1.TextChanged += richTextBox1_TextChanged;
+            // 
+            // timer1
+            // 
+            timer1.Interval = 2500;
+            timer1.Tick += timer1_Tick;
             // 
             // battleScreen
             // 
@@ -1869,5 +1876,6 @@
         private Label label30;
         private System.Windows.Forms.Timer gameLoopTimer;
         private RichTextBox richTextBox1;
+        private System.Windows.Forms.Timer timer1;
     }
 }

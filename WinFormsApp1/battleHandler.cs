@@ -35,9 +35,9 @@ namespace WinFormsApp1
             int manaRegenAmount;
             int energyRegenAmount;
 
-            healthRegenAmount = (int)((returnChar.charStrength * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxHP * 0.1));
-            manaRegenAmount = (int)((returnChar.charIntelligence * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxMana * 0.1));
-            energyRegenAmount = (int)((returnChar.charDex * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxEnergy * 0.1));
+            healthRegenAmount = (int)((returnChar.charStrength * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxHP * 0.035));
+            manaRegenAmount = (int)((returnChar.charIntelligence * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxMana * 0.035));
+            energyRegenAmount = (int)((returnChar.charDex * 0.1) + (returnChar.charFocus * 0.1) + (characterData.charMaxEnergy * 0.035));
 
             if (returnChar.charBackgroundBonus == 1)
             {
@@ -53,15 +53,16 @@ namespace WinFormsApp1
             if (returnChar.charCurrentHP + healthRegenAmount < returnChar.charMaxHP)
             {
                 returnChar.charCurrentHP += healthRegenAmount;
-            }
+            } else { returnChar.charCurrentHP = returnChar.charMaxHP; }
             if (returnChar.charCurrentMana + manaRegenAmount < returnChar.charMaxMana)
             {
                 returnChar.charCurrentMana += manaRegenAmount;
-            }
+            } else { returnChar.charCurrentMana = returnChar.charMaxMana; }
             if (returnChar.charCurrentEnergy + energyRegenAmount < returnChar.charMaxEnergy)
             {
                 returnChar.charCurrentEnergy += energyRegenAmount;
-            }
+
+            } else { returnChar.charCurrentEnergy = returnChar.charMaxEnergy; }
 
             return returnChar;
 

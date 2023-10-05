@@ -58,7 +58,6 @@ namespace WinFormsApp1
         }
         public void updateNpcUI()
         {
-            Debug.WriteLine("Total npc list size: " + enemyNpcList.Count);
             for (int i = 0; i < enemyNpcList.Count; i++)
             {
                 var currentNpc = enemyNpcList[i];
@@ -69,7 +68,6 @@ namespace WinFormsApp1
 
                 if (groupBox != null && hpBar != null && manaBar != null && energyBar != null)
                 {
-                    Debug.WriteLine("Adding new npc.. " + currentNpc._npcData.npcName);
                     groupBox.Text = currentNpc._npcData.npcName;
                     hpBar.Maximum = currentNpc._npcData.npcMaxHP;
                     hpBar.Value = currentNpc._npcData.npcCurrentHP;
@@ -181,7 +179,7 @@ namespace WinFormsApp1
         {
             combatStarted = true;
             generateBattleLists();
-
+            timer1.Enabled = true;
             updateFriendlyUI();
             updateNpcUI();
             gameLoopTimer.Enabled = true;
@@ -210,7 +208,7 @@ namespace WinFormsApp1
             // Replace the old character data with the new one
             if (index != -1)
             {
-              //  friendlyCharList[index]._charData = characterData;
+                //  friendlyCharList[index]._charData = characterData;
             }
         }
         public void PerformAction(characterData charData)
@@ -228,7 +226,7 @@ namespace WinFormsApp1
 
             if (charData.charCurrentEnergy < result.energyCost)
             {
-                result.combatLogString = CombatLogGenerator.GenerateAttackLog(targetNpc.npcName, charData.charName, 0, "melee","failure",true);
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(targetNpc.npcName, charData.charName, 0, "melee", "failure", true);
                 result.damageDealt = 0;
             }
             if (charData.charCurrentMana < result.manaCost)
@@ -236,13 +234,26 @@ namespace WinFormsApp1
                 result.damageDealt = 0;
                 result.combatLogString = CombatLogGenerator.GenerateAttackLog(targetNpc.npcName, charData.charName, 0, "spell", "failure", true); ;
             }
+            var character = friendlyCharList.FirstOrDefault(c => c._charData.charUID == charData.charUID);
+
+            // Deduct the energy cost
+            character._charData.charCurrentEnergy -= result.energyCost;
+
+            // Ensure energy doesn't go below zero
+            if (character._charData.charCurrentEnergy < 0)
+            {
+                character._charData.charCurrentEnergy = 0;
+            }
+
+
+
             // Update the NPC's health
             UpdateNpcHealth(targetIndex, result.damageDealt);
 
             // Update the UI if needed
             if (result.damageDealt > 0)
             {
-                
+
                 updateNpcUI();
             }
 
@@ -256,6 +267,7 @@ namespace WinFormsApp1
         private void UpdateNpcHealth(int targetIndex, int damageDealt)
         {
             npcData targetNpc = enemyNpcList[targetIndex]._npcData;
+            Debug.WriteLine("Damage target: " + targetNpc.npcName);
             targetNpc.npcCurrentHP -= damageDealt;
 
             if (targetNpc.npcCurrentHP <= 0)
@@ -266,7 +278,7 @@ namespace WinFormsApp1
             }
 
             // Update the actual NPC data in the list
-            if (enemyNpcList != null && enemyNpcList.Count > targetIndex)
+            if (enemyNpcList != null && enemyNpcList.Count > targetIndex) //when someone attacks a worm, it deals damage to all worms on the field. targetIndex needs to be changed
             {
                 // Step 1: Retrieve the struct from the list
                 battleHandler.npcSlot npcSlot = enemyNpcList[targetIndex];
@@ -280,7 +292,6 @@ namespace WinFormsApp1
             else
             {
                 // Handle the case where enemyNpcList is null or the targetIndex is out of range
-                Debug.WriteLine("enemyNpcList is null or targetIndex is out of range.");
             }
         }
 
@@ -306,7 +317,17 @@ namespace WinFormsApp1
             if (npcData.npcCurrentMana < result.manaCost)
             {
                 result.damageDealt = 0;
-                result.combatLogString = CombatLogGenerator.GenerateAttackLog(npcData.npcName, targetCharacter.charName, 0, "spell"); 
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(npcData.npcName, targetCharacter.charName, 0, "spell");
+            }
+            var npc = enemyNpcList.FirstOrDefault(n => n._npcData.spawnID == npcData.spawnID);
+
+            // Deduct the energy costs
+            //npc._npcData.npcCurrentEnergy -= result.energyCost;
+
+            // Ensure energy doesn't go below zero
+            if (npc._npcData.npcCurrentEnergy < 0)
+            {
+                npc._npcData.npcCurrentEnergy = 0;
             }
 
             targetCharacter.charCurrentHP -= result.damageDealt;
@@ -334,14 +355,20 @@ namespace WinFormsApp1
             richTextBox1.ScrollToCaret();
         }
 
+
         private void gameLoopTimer_Tick(object sender, EventArgs e)
         {
-
+            if (!timer1.Enabled)
+            {
+                timer1.Enabled = true;
+            }
             float deltaTime = 100.0f; // Assuming your loop runs every 1000 ms or 1 second
 
             // Update player characters
             for (int i = 0; i < friendlyCharList.Count; i++)
             {
+
+
                 friendlyCharList[i]._charData.TimeUntilNextAction -= deltaTime;
 
                 if (friendlyCharList[i]._charData.TimeUntilNextAction <= 0)
@@ -368,6 +395,27 @@ namespace WinFormsApp1
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (combatStarted == false)
+            {
+
+                timer1.Enabled = false;
+
+                return;
+            }
+            for (int i = 0; i < friendlyCharList.Count; i++)
+            {
+                characterData tempCharRegen = persistantData.battleHandler.regenerate(friendlyCharList[i]._charData);
+
+                friendlyCharList[i]._charData.charCurrentHP = tempCharRegen.charCurrentHP;
+                friendlyCharList[i]._charData.charCurrentMana = tempCharRegen.charCurrentMana;
+                friendlyCharList[i]._charData.charCurrentEnergy = tempCharRegen.charCurrentEnergy;
+
+
+            }
         }
     }
 }
