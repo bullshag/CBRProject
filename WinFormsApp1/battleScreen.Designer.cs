@@ -173,6 +173,7 @@
             label29 = new Label();
             label30 = new Label();
             gameLoopTimer = new System.Windows.Forms.Timer(components);
+            richTextBox1 = new RichTextBox();
             charWindow1.SuspendLayout();
             charWindow2.SuspendLayout();
             charWindow3.SuspendLayout();
@@ -931,12 +932,14 @@
             // 
             // npc_charWindow1
             // 
+            npc_charWindow1.BackColor = Color.Firebrick;
             npc_charWindow1.Controls.Add(npc_hpBar1);
             npc_charWindow1.Controls.Add(npc_manaBar1);
             npc_charWindow1.Controls.Add(npc_energyBar1);
             npc_charWindow1.Controls.Add(label19);
             npc_charWindow1.Controls.Add(label20);
             npc_charWindow1.Controls.Add(label21);
+            npc_charWindow1.ForeColor = SystemColors.ActiveCaptionText;
             npc_charWindow1.Location = new Point(857, 12);
             npc_charWindow1.Name = "npc_charWindow1";
             npc_charWindow1.Size = new Size(255, 70);
@@ -947,6 +950,7 @@
             // 
             // npc_hpBar1
             // 
+            npc_hpBar1.ForeColor = Color.Green;
             npc_hpBar1.Location = new Point(43, 22);
             npc_hpBar1.Name = "npc_hpBar1";
             npc_hpBar1.Size = new Size(206, 12);
@@ -1000,6 +1004,7 @@
             // 
             // npc_charWindow2
             // 
+            npc_charWindow2.BackColor = Color.Firebrick;
             npc_charWindow2.Controls.Add(npc_hpBar2);
             npc_charWindow2.Controls.Add(npc_manaBar2);
             npc_charWindow2.Controls.Add(npc_energyBar2);
@@ -1016,6 +1021,7 @@
             // 
             // npc_hpBar2
             // 
+            npc_hpBar2.ForeColor = Color.Green;
             npc_hpBar2.Location = new Point(43, 22);
             npc_hpBar2.Name = "npc_hpBar2";
             npc_hpBar2.Size = new Size(206, 12);
@@ -1069,6 +1075,7 @@
             // 
             // npc_charWindow3
             // 
+            npc_charWindow3.BackColor = Color.Firebrick;
             npc_charWindow3.Controls.Add(npc_hpBar3);
             npc_charWindow3.Controls.Add(npc_manaBar3);
             npc_charWindow3.Controls.Add(npc_energyBar3);
@@ -1085,6 +1092,7 @@
             // 
             // npc_hpBar3
             // 
+            npc_hpBar3.ForeColor = Color.Green;
             npc_hpBar3.Location = new Point(43, 22);
             npc_hpBar3.Name = "npc_hpBar3";
             npc_hpBar3.Size = new Size(206, 12);
@@ -1138,6 +1146,7 @@
             // 
             // npc_charWindow4
             // 
+            npc_charWindow4.BackColor = Color.Firebrick;
             npc_charWindow4.Controls.Add(npc_hpBar4);
             npc_charWindow4.Controls.Add(npc_manaBar4);
             npc_charWindow4.Controls.Add(npc_energyBar4);
@@ -1154,6 +1163,7 @@
             // 
             // npc_hpBar4
             // 
+            npc_hpBar4.ForeColor = Color.Green;
             npc_hpBar4.Location = new Point(43, 22);
             npc_hpBar4.Name = "npc_hpBar4";
             npc_hpBar4.Size = new Size(206, 12);
@@ -1207,6 +1217,7 @@
             // 
             // npc_charWindow5
             // 
+            npc_charWindow5.BackColor = Color.Firebrick;
             npc_charWindow5.Controls.Add(npc_hpBar5);
             npc_charWindow5.Controls.Add(npc_manaBar5);
             npc_charWindow5.Controls.Add(npc_energyBar5);
@@ -1223,6 +1234,7 @@
             // 
             // npc_hpBar5
             // 
+            npc_hpBar5.ForeColor = Color.Green;
             npc_hpBar5.Location = new Point(43, 22);
             npc_hpBar5.Name = "npc_hpBar5";
             npc_hpBar5.Size = new Size(206, 12);
@@ -1633,11 +1645,22 @@
             // 
             gameLoopTimer.Tick += gameLoopTimer_Tick;
             // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(311, 392);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.ReadOnly = true;
+            richTextBox1.Size = new Size(801, 191);
+            richTextBox1.TabIndex = 13;
+            richTextBox1.Text = "";
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
+            // 
             // battleScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 599);
+            Controls.Add(richTextBox1);
             Controls.Add(npc_charWindow10);
             Controls.Add(npc_charWindow9);
             Controls.Add(npc_charWindow8);
@@ -1845,5 +1868,6 @@
         private Label label29;
         private Label label30;
         private System.Windows.Forms.Timer gameLoopTimer;
+        private RichTextBox richTextBox1;
     }
 }

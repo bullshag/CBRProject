@@ -203,6 +203,16 @@ namespace WinFormsApp1
 
         private Random rand = new Random();
 
+        public void subtractEnergy(characterData characterData, int energyCost)
+        {
+            int index = friendlyCharList.FindIndex(c => c._charData.charUID == characterData.charUID);
+            characterData.charCurrentEnergy -= energyCost;
+            // Replace the old character data with the new one
+            if (index != -1)
+            {
+              //  friendlyCharList[index]._charData = characterData;
+            }
+        }
         public void PerformAction(characterData charData)
         {
             // Randomly select an action from the available actions
@@ -216,17 +226,31 @@ namespace WinFormsApp1
             // Execute the action
             actionLibrary.Action result = selectedAction(targetNpc, charData, actionLibrary.Target.npc);
 
+            if (charData.charCurrentEnergy < result.energyCost)
+            {
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(targetNpc.npcName, charData.charName, 0, "melee","failure",true);
+                result.damageDealt = 0;
+            }
+            if (charData.charCurrentMana < result.manaCost)
+            {
+                result.damageDealt = 0;
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(targetNpc.npcName, charData.charName, 0, "spell", "failure", true); ;
+            }
             // Update the NPC's health
             UpdateNpcHealth(targetIndex, result.damageDealt);
 
             // Update the UI if needed
             if (result.damageDealt > 0)
             {
+                
                 updateNpcUI();
             }
 
             // Log the action
-            Debug.WriteLine(result.combatLogString);
+            richTextBox1.Text += result.combatLogString + Environment.NewLine;
+
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
         }
 
         private void UpdateNpcHealth(int targetIndex, int damageDealt)
@@ -273,6 +297,18 @@ namespace WinFormsApp1
 
             // Execute the action
             actionLibrary.Action result = selectedAction(npcData, targetCharacter, actionLibrary.Target.character);
+
+            if (npcData.npcCurrentEnergy < result.energyCost)
+            {
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(npcData.npcName, targetCharacter.charName, 0, "melee");
+                result.damageDealt = 0;
+            }
+            if (npcData.npcCurrentMana < result.manaCost)
+            {
+                result.damageDealt = 0;
+                result.combatLogString = CombatLogGenerator.GenerateAttackLog(npcData.npcName, targetCharacter.charName, 0, "spell"); 
+            }
+
             targetCharacter.charCurrentHP -= result.damageDealt;
 
             if (targetCharacter.charCurrentHP <= 0)
@@ -292,7 +328,10 @@ namespace WinFormsApp1
                 updateFriendlyUI(); // Assuming you have a method to update the character UI
             }
 
-            Debug.WriteLine(result.combatLogString);
+            richTextBox1.Text += result.combatLogString + Environment.NewLine;
+
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
         }
 
         private void gameLoopTimer_Tick(object sender, EventArgs e)
@@ -324,6 +363,11 @@ namespace WinFormsApp1
                 }
             }
             if (!combatStarted) { gameLoopTimer.Enabled = false; Debug.WriteLine("combat finished."); }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

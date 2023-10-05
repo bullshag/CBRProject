@@ -21,8 +21,12 @@ namespace WinFormsApp1
         public static List<characterData> characterList;
         public static int money;
         public static skillScreen skillScreen;
+        public static levelUpScreen levelUpScreen;
+        public static battleHandler battleHandler;
         public static void firstLoad()
         {
+            battleHandler = new battleHandler();
+            levelUpScreen = new levelUpScreen();
             skillScreen = new skillScreen();
             characterList = new List<characterData>();
             playerZoneID = 1;

@@ -333,6 +333,7 @@ namespace WinFormsApp1
                     characterData character = new characterData
                     {
                         charName = reader.GetString("charName"),
+                        charUID = reader.GetInt32("charuid"),
                         charMaxHP = reader.GetInt32("charMaxHP"),
                         charCurrentHP = reader.GetInt32("charCurrentHP"),
                         charMaxMana = reader.GetInt32("charMaxMana"),
@@ -455,7 +456,57 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
+        public void SaveCharacter(characterData character)
+        {
 
+            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string sql = "UPDATE characters SET charMaxHP = @charMaxHP, charCurrentHP = @charCurrentHP, charMaxMana = @charMaxMana, " +
+                             "charCurrentMana = @charCurrentMana, charMaxEnergy = @charMaxEnergy, charCurrentEnergy = @charCurrentEnergy, " +
+                             "charStrength = @charStrength, charDex = @charDex, charIntelligence = @charIntelligence, charFocus = @charFocus, " +
+                             "charSpeed = @charSpeed, charMaxEXP = @charMaxEXP, charCurrentEXP = @charCurrentEXP, charBackgroundBonus = @charBackgroundBonus, " +
+                             "charSkill1 = @charSkill1, charSkill2 = @charSkill2, charSkill3 = @charSkill3, skillPoints = @skillPoints, statPoints = @statPoints " +
+                             "WHERE charUID = @charUID;";
+                try
+                {
+
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@charMaxHP", character.charMaxHP);
+                        cmd.Parameters.AddWithValue("@charCurrentHP", character.charCurrentHP);
+                        cmd.Parameters.AddWithValue("@charMaxMana", character.charMaxMana);
+                        cmd.Parameters.AddWithValue("@charCurrentMana", character.charCurrentMana);
+                        cmd.Parameters.AddWithValue("@charMaxEnergy", character.charMaxEnergy);
+                        cmd.Parameters.AddWithValue("@charCurrentEnergy", character.charCurrentEnergy);
+                        cmd.Parameters.AddWithValue("@charStrength", character.charStrength);
+                        cmd.Parameters.AddWithValue("@charDex", character.charDex);
+                        cmd.Parameters.AddWithValue("@charIntelligence", character.charIntelligence);
+                        cmd.Parameters.AddWithValue("@charFocus", character.charFocus);
+                        cmd.Parameters.AddWithValue("@charSpeed", character.charSpeed);
+                        cmd.Parameters.AddWithValue("@charMaxEXP", character.charMaxEXP);
+                        cmd.Parameters.AddWithValue("@charCurrentEXP", character.charCurrentEXP);
+                        cmd.Parameters.AddWithValue("@charBackgroundBonus", character.charBackgroundBonus);
+                        cmd.Parameters.AddWithValue("@charSkill1", character.charSkill1);
+                        cmd.Parameters.AddWithValue("@charSkill2", character.charSkill2);
+                        cmd.Parameters.AddWithValue("@charSkill3", character.charSkill3);
+                        cmd.Parameters.AddWithValue("@skillPoints", character.skillPoints);
+                        cmd.Parameters.AddWithValue("@statPoints", character.statPoints);
+                        cmd.Parameters.AddWithValue("@charUID", character.charUID);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                    throw;
+                }
+                
+            }
+        }
         public bool SendMessage(string sender, string message)
         {
 

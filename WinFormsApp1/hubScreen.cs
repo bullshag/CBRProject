@@ -85,6 +85,7 @@ namespace WinFormsApp1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+      
             if (persistantData.chatEnabled = true)
             {
                 persistantData._dataHandler.PopulateChatBox(richTextBox1);
@@ -122,8 +123,41 @@ namespace WinFormsApp1
 
         }
 
+        public void regenerateHPTick()
+        {
+            if (listBox1.SelectedIndex == -1)
+            {
+                listBox1.SelectedIndex = 0;
+            }
+            string selectedCharacterName = listBox1.SelectedItem.ToString();
+            var selectedCharacter = persistantData.characterList.Find(c => c.charName == selectedCharacterName);
+
+            // Update Labels
+            statsHPLabel.Text = $"HP: {selectedCharacter.charCurrentHP}/{selectedCharacter.charMaxHP}";
+            statsManaLabel.Text = $"Mana: {selectedCharacter.charCurrentMana}/{selectedCharacter.charMaxMana}";
+            statsEnergyLabel.Text = $"Energy: {selectedCharacter.charCurrentEnergy}/{selectedCharacter.charMaxEnergy}";
+            statsEXPLabel.Text = $"EXP: {selectedCharacter.charCurrentEXP}/{selectedCharacter.charMaxEXP}";
+
+            // Update Progress Bars
+            statsHPBar.Maximum = selectedCharacter.charMaxHP;
+            statsHPBar.Value = Math.Min(selectedCharacter.charCurrentHP, selectedCharacter.charMaxHP);
+
+            statsManaBar.Maximum = selectedCharacter.charMaxMana;
+            statsManaBar.Value = Math.Min(selectedCharacter.charCurrentMana, selectedCharacter.charMaxMana);
+
+            statsEnergyBar.Maximum = selectedCharacter.charMaxEnergy;
+            statsEnergyBar.Value = Math.Min(selectedCharacter.charCurrentEnergy, selectedCharacter.charMaxEnergy);
+
+            statsEXPBar.Maximum = selectedCharacter.charMaxEXP;
+            statsEXPBar.Value = Math.Min(selectedCharacter.charCurrentEXP, selectedCharacter.charMaxEXP);
+        }
+
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBox1.SelectedIndex == -1)
+            {
+                listBox1.SelectedIndex = 0;
+            }
             string selectedCharacterName = listBox1.SelectedItem.ToString();
             var selectedCharacter = persistantData.characterList.Find(c => c.charName == selectedCharacterName);
 
@@ -155,6 +189,16 @@ namespace WinFormsApp1
             persistantData.hubScreen.Visible = false;
             persistantData.skillScreen.defaultStats();
             persistantData.skillScreen.Visible = true;
+        }
+
+        private void levelupButton_Click(object sender, EventArgs e)
+        {
+            string selectedCharacterName = listBox1.SelectedItem.ToString();
+            characterData selectedCharacter = persistantData.characterList.Find(c => c.charName == selectedCharacterName);
+
+            persistantData.hubScreen.Visible = false;
+            persistantData.levelUpScreen.Visible = true;
+            persistantData.levelUpScreen.selectCharacterForLevelUp(selectedCharacter);
         }
     }
 }

@@ -103,7 +103,7 @@ namespace WinFormsApp1
                     break;
 
                 case 3:
-                    richTextBox1.Text = "The Bastion excells in defensive skills and survivability.\r\n\r\n20% more maximum starting health\r\n+ 15% of mana and energy regeneration also regenerates health\r\n+ Increased health regeneration rate";
+                    richTextBox1.Text = "The Bastion excells in defensive skills and survivability.\r\n\r\n20% more maximum starting health\r\n+ 15% of mana and energy regeneration also regenerates health.";
                     break;
 
                 case 4:

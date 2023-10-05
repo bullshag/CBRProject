@@ -27,6 +27,9 @@ namespace CBPRM
             public characterData characterData;
             public npcData npcData;
             public string combatLogString;
+            public int energyCost;
+            public int manaCost;
+            public int healthCost;
             
         }
         public enum Target
@@ -40,7 +43,7 @@ namespace CBPRM
             Action actionResult = new Action();
                     Random rand = new Random();
                     double randomFactor = 0.8 + (rand.NextDouble() * 0.4);
-
+            actionResult.energyCost = 15;
             switch (actionTarget)
             {
                 case Target.character:
@@ -84,7 +87,8 @@ namespace CBPRM
 
         {
             Action actionResult = new Action();
-
+            actionResult.energyCost = 7;
+            actionResult.manaCost = 8;
             switch (actionTarget)
             {
                 case Target.character:
