@@ -85,7 +85,7 @@ namespace WinFormsApp1
     {"noMana", new List<string> {"murmurs an incomplete incantation", "fails to focus magical energy", "stutters, lacking mana", "pauses, drained of mana"}}
 
         };
-
+     
         private static List<string> connectingWords = new List<string>
     {
         "at",

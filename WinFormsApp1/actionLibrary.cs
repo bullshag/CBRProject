@@ -30,12 +30,78 @@ namespace CBPRM
             public int energyCost;
             public int manaCost;
             public int healthCost;
+            public int cooldownMS;
             
         }
         public enum Target
         {
             character, 
             npc
+        }
+        public Action Flurry(npcData npc, characterData character, Target actionTarget, string abilityName = "Flurry")
+
+        {
+            Action actionResult = new Action();
+            Random rand = new Random();
+            double randomFactor = 0.8 + (rand.NextDouble() * 0.4);
+            int attackCount = (int)(rand.Next(0,3) + 1);
+            actionResult.energyCost = 45;
+            switch (actionTarget)
+            {
+                case Target.character:
+                    int baseDamage = (int)((npc.npcSpeed + npc.npcDex + (int)(npc.npcEXPValue / 10)) / 2);
+                    int defense = (int)((character.charSpeed + character.charDex) / 2);
+
+                    // Calculate the final damage
+
+                    // Introduce a random factor, for example, a value between 0.8 and 1.2
+
+                    // Calculate the final damage with the random factor
+                    int finalDamage = (int)((baseDamage - defense) * randomFactor);
+                    int tempDamage = new int();
+                    tempDamage = finalDamage;
+                    // Ensure the damage is at least 0
+                    finalDamage = Math.Max(finalDamage, 0);
+                    actionResult.combatLogString = npc.npcName + " unleashes a flurry of " + attackCount + " blows against " + character.charName + "!";
+                    for (int i = 0; i < attackCount; i++)
+                    { 
+                        tempDamage = (int)((baseDamage - defense) * randomFactor);
+                        actionResult.combatLogString += Environment.NewLine + npc.npcName + " deals " + tempDamage + " flurry damage to " + character.charName + "!";
+                    
+
+                         finalDamage += tempDamage;
+
+
+                    }
+                    actionResult.damageDealt = finalDamage;
+                    break;
+                case Target.npc:
+                    // Character attacking NPC logic
+                    int charBaseDamage = character.charStrength + character.charDex + (int)(character.charMaxEXP / 10);
+                    int npcDefense = (int)((npc.npcSpeed + npc.npcDex) / 2);
+                    int charFinalDamage = 0; // Initialize to 0
+                    int tempCharDamage;
+
+                    actionResult.combatLogString = character.charName + " unleashes a flurry of " + attackCount + " blows against " + npc.npcName + "!";
+
+                    for (int i = 0; i < attackCount; i++)
+                    {
+                        tempCharDamage = (int)((charBaseDamage - npcDefense) * randomFactor);
+                        tempCharDamage = Math.Max(tempCharDamage, 0); // Ensure the damage is at least 0
+
+                        actionResult.combatLogString += Environment.NewLine + character.charName + " deals " + tempCharDamage + " flurry damage to " + npc.npcName + "!";
+
+                        charFinalDamage += tempCharDamage;
+                    }
+
+                    actionResult.damageDealt = charFinalDamage;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return actionResult;
         }
         public Action MeleeAttackAction(npcData npc, characterData character, Target actionTarget, string abilityName = "")
 

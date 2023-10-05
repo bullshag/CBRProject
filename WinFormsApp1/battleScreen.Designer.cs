@@ -31,7 +31,7 @@
             components = new System.ComponentModel.Container();
             charWindow1 = new GroupBox();
             energy_Label1 = new Label();
-            manaLabel1 = new Label();
+            mana_Label1 = new Label();
             hp_Label1 = new Label();
             energyBar1 = new ProgressBar();
             manaBar1 = new ProgressBar();
@@ -204,7 +204,7 @@
             // 
             charWindow1.BackColor = Color.LightSteelBlue;
             charWindow1.Controls.Add(energy_Label1);
-            charWindow1.Controls.Add(manaLabel1);
+            charWindow1.Controls.Add(mana_Label1);
             charWindow1.Controls.Add(hp_Label1);
             charWindow1.Controls.Add(energyBar1);
             charWindow1.Controls.Add(manaBar1);
@@ -227,15 +227,15 @@
             energy_Label1.TabIndex = 6;
             energy_Label1.Text = "Energy: XXX/XXX";
             // 
-            // manaLabel1
+            // mana_Label1
             // 
-            manaLabel1.AutoSize = true;
-            manaLabel1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            manaLabel1.Location = new Point(10, 40);
-            manaLabel1.Name = "manaLabel1";
-            manaLabel1.Size = new Size(82, 13);
-            manaLabel1.TabIndex = 5;
-            manaLabel1.Text = "Mana: XXX/XXX";
+            mana_Label1.AutoSize = true;
+            mana_Label1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            mana_Label1.Location = new Point(10, 40);
+            mana_Label1.Name = "mana_Label1";
+            mana_Label1.Size = new Size(82, 13);
+            mana_Label1.TabIndex = 5;
+            mana_Label1.Text = "Mana: XXX/XXX";
             // 
             // hp_Label1
             // 
@@ -1644,7 +1644,6 @@
             // 
             // gameLoopTimer
             // 
-            gameLoopTimer.Interval = 1000;
             gameLoopTimer.Tick += gameLoopTimer_Tick;
             // 
             // richTextBox1
@@ -1735,7 +1734,7 @@
         private ProgressBar manaBar1;
         private ProgressBar hpBar1;
         private Label energyLabel1;
-        private Label manaLabel1;
+        private Label mana_Label1;
         private Label hp_Label1;
         private GroupBox charWindow2;
         private ProgressBar energyBar2;

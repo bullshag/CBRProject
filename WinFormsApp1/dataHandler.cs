@@ -52,7 +52,7 @@ namespace WinFormsApp1
             List<npcSlot> npcSlotList = new List<npcSlot>();
 
             int slotID = 1; // Initialize slotID
-            foreach (var npc in npcDataList)
+            foreach (npcData npc in npcDataList)
             {
                 npcSlot newNpcSlot = new npcSlot
                 {
@@ -104,7 +104,7 @@ namespace WinFormsApp1
                     npcData npc = new npcData
                     {
 
-                        spawnID = GenerateRandomNumber(),
+                        spawnID = Guid.NewGuid().GetHashCode(),
                        
                         npcName = reader.GetString("npcName"),
                         npcMaxHP = reader.GetInt32("npcHP"),
@@ -138,15 +138,43 @@ namespace WinFormsApp1
                 while (totalNPCExp < totalPartyMaxEXP && npcList.Count < 10)
                 {
                     int index = rand.Next(availableNPCs.Count);
-                    npcData selectedNPC = availableNPCs[index];
+                    npcData originalNPC = availableNPCs[index];
 
-                    if (totalNPCExp + selectedNPC.npcEXPValue <= upperLimitEXP)
+                    // Create a new instance of npcData and copy the properties
+                    npcData newNPC = new npcData
                     {
-                        npcList.Add(selectedNPC);
-                        totalNPCExp += selectedNPC.npcEXPValue;
+                        spawnID = Guid.NewGuid().GetHashCode(),
+                        npcName = originalNPC.npcName,
+                        npcMaxHP = originalNPC.npcMaxHP,
+                        npcCurrentHP = originalNPC.npcCurrentHP,
+                        npcMaxMana = originalNPC.npcMaxMana,
+                        npcCurrentMana = originalNPC.npcCurrentMana,
+                        npcMaxEnergy = originalNPC.npcMaxEnergy,
+                        npcCurrentEnergy = originalNPC.npcCurrentEnergy,
+                        npcStrength = originalNPC.npcStrength,
+                        npcDex = originalNPC.npcDex,
+                        npcIntelligence = originalNPC.npcIntelligence,
+                        npcSpeed = originalNPC.npcSpeed,
+                        npcFocus = originalNPC.npcFocus,
+                        npcEXPValue = originalNPC.npcEXPValue,
+                        npcSkill1 = originalNPC.npcSkill1,
+                        npcSkill2 = originalNPC.npcSkill2,
+                        npcSkill3 = originalNPC.npcSkill3,
+                        TimeUntilNextAction = originalNPC.TimeUntilNextAction,
+                        maxOnScreen = originalNPC.maxOnScreen
+                    };
+                    newNPC.npcID = newNPC.spawnID;
+                    newNPC.loadActions();
+                    newNPC.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
+
+                    if (totalNPCExp + newNPC.npcEXPValue <= upperLimitEXP)
+                    {
+                        npcList.Add(newNPC);
+                        totalNPCExp += newNPC.npcEXPValue;
                     }
                 }
             }
+            
             catch (Exception ex)
             {
                 // Handle the exception (e.g., log the error, show an error message, etc.)

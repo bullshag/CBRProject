@@ -112,7 +112,16 @@ namespace WinFormsApp1
             // If all combatants on either side are down, set combatStarted to false
             if (allFriendlyDown || allEnemyDown)
             {
+                gameLoopTimer.Enabled = false;
                 combatStarted = false;
+                if (allFriendlyDown)
+                {
+                    MessageBox.Show("You have been defeated!");
+                }
+                if (allEnemyDown)
+                {
+                    MessageBox.Show("You are victorious!");
+                }
             }
         }
         public void updateFriendlyUI()
@@ -219,7 +228,9 @@ namespace WinFormsApp1
 
             // Randomly select a target NPC
             int targetIndex = rand.Next(enemyNpcList.Count);
-            npcData targetNpc = enemyNpcList[targetIndex]._npcData;
+            npcData targetNpc = enemyNpcList.First(n => n._npcData.spawnID == enemyNpcList[targetIndex]._npcData.spawnID)._npcData;
+
+
 
             // Execute the action
             actionLibrary.Action result = selectedAction(targetNpc, charData, actionLibrary.Target.npc);
@@ -248,7 +259,10 @@ namespace WinFormsApp1
 
 
             // Update the NPC's health
-            UpdateNpcHealth(targetIndex, result.damageDealt);
+            Debug.WriteLine("Before Update Hash Codes: " + string.Join(", ", enemyNpcList.Select(n => n._npcData.GetHashCode())));
+            UpdateNpcHealth(targetNpc.spawnID, result.damageDealt);
+            Debug.WriteLine("After Update Hash Codes: " + string.Join(", ", enemyNpcList.Select(n => n._npcData.GetHashCode())));
+
 
             // Update the UI if needed
             if (result.damageDealt > 0)
@@ -264,37 +278,32 @@ namespace WinFormsApp1
             richTextBox1.ScrollToCaret();
         }
 
-        private void UpdateNpcHealth(int targetIndex, int damageDealt)
+        private void UpdateNpcHealth(int targetSpawnID, int damageDealt)
         {
-            npcData targetNpc = enemyNpcList[targetIndex]._npcData;
-            Debug.WriteLine("Damage target: " + targetNpc.npcName);
-            targetNpc.npcCurrentHP -= damageDealt;
+            int targetIndex = enemyNpcList.FindIndex(n => n._npcData.spawnID == targetSpawnID);
 
-            if (targetNpc.npcCurrentHP <= 0)
+            if (targetIndex != -1)
             {
-                CheckCombatStatus();
-                targetNpc.npcCurrentHP = 0;
-                // Additional logic for NPC death can go here
-            }
+                Debug.WriteLine($"Targeting NPC with spawnID: {targetSpawnID}");
 
-            // Update the actual NPC data in the list
-            if (enemyNpcList != null && enemyNpcList.Count > targetIndex) //when someone attacks a worm, it deals damage to all worms on the field. targetIndex needs to be changed
-            {
-                // Step 1: Retrieve the struct from the list
                 battleHandler.npcSlot npcSlot = enemyNpcList[targetIndex];
+                npcSlot._npcData.npcCurrentHP -= damageDealt;
 
-                // Step 2: Modify the retrieved struct
-                npcSlot._npcData = targetNpc;
+                if (npcSlot._npcData.npcCurrentHP < 0)
+                {
+                    npcSlot._npcData.npcCurrentHP = 0;
+                    CheckCombatStatus();
+                }
 
-                // Step 3: Put it back into the list at the same index
                 enemyNpcList[targetIndex] = npcSlot;
+
+                Debug.WriteLine($"Updated NPC with spawnID: {npcSlot._npcData.spawnID}, New HP: {npcSlot._npcData.npcCurrentHP}");
             }
             else
             {
-                // Handle the case where enemyNpcList is null or the targetIndex is out of range
+                Debug.WriteLine($"NPC with spawnID {targetSpawnID} not found.");
             }
         }
-
         public void PerformAction(npcData npcData)
         {
             // Randomly select an action from the available actions
