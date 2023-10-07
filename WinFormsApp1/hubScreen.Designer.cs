@@ -135,6 +135,7 @@
             levelupButton.Text = "Level  Up!";
             levelupButton.UseVisualStyleBackColor = true;
             levelupButton.Visible = false;
+            levelupButton.Click += levelupButton_Click;
             // 
             // statsEXPBar
             // 

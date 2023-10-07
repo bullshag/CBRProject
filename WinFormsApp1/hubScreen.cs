@@ -38,11 +38,15 @@ namespace WinFormsApp1
                 listBox1.Items.Add(character.charName);
             }
 
-
             if (listBox1.Items.Count > 0)
             {
+            listBox1.SelectedIndex = 0;
                 characterPanel_noChar.Visible = false;
                 characterPanel_foundChar.Visible = true;
+            } else
+            {
+                characterPanel_noChar.Visible = true;
+                characterPanel_foundChar.Visible = false;
             }
 
 
@@ -81,10 +85,17 @@ namespace WinFormsApp1
             if (checkBox1.Checked) { button7.Enabled = true; } else { button7.Enabled = false; }
         }
 
-
-
         private void timer1_Tick(object sender, EventArgs e)
         {
+            for (int i = 0; i < persistantData.characterList.Count; i++)
+            {
+                if (!persistantData.battleScreen.combatStarted)
+                {
+    persistantData.characterList[i] = persistantData.battleHandler.regenerate(persistantData.characterList[i]);  // Regenerate 1 HP per tick
+                    updateHubStats();
+                }
+             }
+
             if (persistantData.chatEnabled = true)
             {
                 persistantData._dataHandler.PopulateChatBox(richTextBox1);
@@ -122,7 +133,7 @@ namespace WinFormsApp1
 
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        public void updateHubStats()
         {
             string selectedCharacterName = listBox1.SelectedItem.ToString();
             var selectedCharacter = persistantData.characterList.Find(c => c.charName == selectedCharacterName);
@@ -149,12 +160,30 @@ namespace WinFormsApp1
             // Show the level-up button if the character's current EXP exceeds the max EXP
             levelupButton.Visible = selectedCharacter.charCurrentEXP > selectedCharacter.charMaxEXP;
         }
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex == -1)
+            {
+                listBox1.SelectedIndex = 0;
+            }
+           updateHubStats();
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
             persistantData.hubScreen.Visible = false;
             persistantData.skillScreen.defaultStats();
             persistantData.skillScreen.Visible = true;
+        }
+
+        private void levelupButton_Click(object sender, EventArgs e)
+        {
+            string selectedCharacterName = listBox1.SelectedItem.ToString();
+            characterData selectedCharacter = persistantData.characterList.Find(c => c.charName == selectedCharacterName);
+
+            persistantData.hubScreen.Visible = false;
+            persistantData.levelUpScreen.Visible = true;
+            persistantData.levelUpScreen.selectCharacterForLevelUp(selectedCharacter);
         }
     }
 }

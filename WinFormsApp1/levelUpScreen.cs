@@ -53,35 +53,148 @@ namespace CBPRM
                 case 4:
                     backgroundBonusLabel.Text = baseText + "When you increase your focus or intelligence, you also gain +10 maximum mana.";
                     break;
-                    performLevelUp();
             }
         }
-
         public void increaseStat(int statID)
         {
-            //stat ids:
-            //focus = 0
-            //speed = 1
-            // int = 2
-            // strength = 3
-            //hp = 4
-            //mana = 5
-            //energy = 6
-            //dex = 7
+            // Check if there are stat points available to spend
+            if (selectedCharacter.statPoints <= 0)
+            {
+                return;
+            }
+
+            // Default values for increasing stats
+            int defaultHPIncrease = 25;
+            int defaultManaIncrease = 25;
+            int defaultEnergyIncrease = 25;
+            int defaultStatIncrease = 1;
+
+            // Apply the stat increase based on the statID
             switch (statID)
             {
-                case 0:
-                    selectedCharacter.statPoints -= 1;
-                    selectedCharacter.charFocus += 1;
-
+                case 0: // focus
+                    selectedCharacter.charFocus += defaultStatIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 4)
+                    {
+                        selectedCharacter.charMaxMana += 10;
+                    }
+                    break;
+                case 1: // speed
+                    selectedCharacter.charSpeed += defaultStatIncrease;
+                    break;
+                case 2: // intelligence
+                    selectedCharacter.charIntelligence += defaultStatIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 4 || selectedCharacter.charBackgroundBonus == 2)
+                    {
+                        selectedCharacter.charMaxMana += 10;
+                    }
+                    break;
+                case 3: // strength
+                    selectedCharacter.charStrength += defaultStatIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 0 || selectedCharacter.charBackgroundBonus == 2)
+                    {
+                        selectedCharacter.charStrength += 1;
+                    }
+                    break;
+                case 4: // hp
+                    selectedCharacter.charMaxHP += defaultHPIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 1)
+                    {
+                        selectedCharacter.charMaxHP = (int)(selectedCharacter.charMaxHP * 1.1);
+                    }
+                    if (selectedCharacter.charBackgroundBonus == 3)
+                    {
+                        selectedCharacter.charMaxEnergy += 5;
+                        selectedCharacter.charMaxMana += 5;
+                    }
+                    break;
+                case 5: // mana
+                    selectedCharacter.charMaxMana += defaultManaIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 1)
+                    {
+                        selectedCharacter.charMaxMana = (int)(selectedCharacter.charMaxMana * 1.1);
+                    }
+                    break;
+                case 6: // energy
+                    selectedCharacter.charMaxEnergy += defaultEnergyIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 1)
+                    {
+                        selectedCharacter.charMaxEnergy = (int)(selectedCharacter.charMaxEnergy * 1.1);
+                    }
+                    break;
+                case 7: // dex
+                    selectedCharacter.charDex += defaultStatIncrease;
+                    if (selectedCharacter.charBackgroundBonus == 0 || selectedCharacter.charBackgroundBonus == 2)
+                    {
+                        selectedCharacter.charDex += 1;
+                    }
+                    break;
+                case 8: // skill points
+                    selectedCharacter.skillPoints += 1;
                     break;
             }
-            
+
+            // Deduct a stat point after successfully increasing a stat
+            selectedCharacter.statPoints -= 1;
+            try
+            {
+                // Find the index of the old character data in the list
+                int index = persistantData.characterList.FindIndex(c => c.charUID == selectedCharacter.charUID);
+
+                // Replace the old character data with the new one
+                if (index != -1)
+                {
+                    persistantData.characterList[index] = selectedCharacter;
+                }
+                else
+                {
+                    // Handle the case where the character was not found in the list
+                    // For example, you might want to add the new character data to the list
+                    persistantData.characterList.Add(selectedCharacter);
+                }
+
+                // Now you can call your method to save this updated list back to the database
+
+                foreach (characterData character in persistantData.characterList)
+                {
+                persistantData._dataHandler.SaveCharacter(character);
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
+            MessageBox.Show("Level Up applied to your character!");
+            if (selectedCharacter.statPoints == 0)
+            {
+                persistantData.hubScreen.Visible = true;
+                persistantData.levelUpScreen.Visible = false;
+            }
         }
 
+        public void ReplaceCharacterData(characterData newCharacterData)
+        {
+            // Find the index of the old character data in the list
+            int index = persistantData.characterList.FindIndex(c => c.charUID == newCharacterData.charUID);
+
+            // Replace the old character data with the new one
+            if (index != -1)
+            {
+                persistantData.characterList[index] = newCharacterData;
+            }
+            else
+            {
+                // Handle the case where the character was not found in the list
+                // For example, you might want to add the new character data to the list
+                persistantData.characterList.Add(newCharacterData);
+            }
+
+        }
         public void performLevelUp()
         {
-            
+
             switch (selectedCharacter.charBackgroundBonus)
             {
                 case 0:
@@ -101,13 +214,53 @@ namespace CBPRM
 
         private void levelUpScreen_Load(object sender, EventArgs e)
         {
-            
+
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            increaseStat(3);
+        }
 
+        private void button9_Click(object sender, EventArgs e)
+        {
+            increaseStat(8);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            increaseStat(0);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            increaseStat(1);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            increaseStat(2);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            increaseStat(4);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            increaseStat(5);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            increaseStat(6);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            increaseStat(7);
         }
     }
 }

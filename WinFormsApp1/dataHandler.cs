@@ -10,6 +10,7 @@ using System.Diagnostics;
 using static WinFormsApp1.battleHandler;
 using CBPRM;
 using static CBPRM.actionLibrary;
+using System.Configuration;
 
 namespace WinFormsApp1
 {
@@ -46,17 +47,54 @@ namespace WinFormsApp1
 
             return characterList;
         }
+        public bool DeleteCharacter(int characterId)
+        {
+            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
+            string deleteQuery = "DELETE FROM Characters WHERE charuid = @CharacterId";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CharacterId", characterId);
+
+                    try
+                    {
+                        connection.Open();
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Remove the character from the friendlyCharList
+                        characterSlot selectedCharSlot = persistantData.battleScreen.friendlyCharList.FirstOrDefault(c => c._charData.charUID == characterId);
+                        characterData characterToRemove = selectedCharSlot._charData;
+                        if (characterToRemove != null)
+                        {
+                            persistantData.battleScreen.friendlyCharList.Remove(selectedCharSlot);
+                            persistantData.characterList.Remove(characterToRemove);
+                        }
+
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        // Log exception
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         public List<npcSlot> GenerateNpcSlotList(List<npcData> npcDataList)
         {
             List<npcSlot> npcSlotList = new List<npcSlot>();
 
             int slotID = 1; // Initialize slotID
-            foreach (var npc in npcDataList)
+            foreach (npcData npc in npcDataList)
             {
                 npcSlot newNpcSlot = new npcSlot
                 {
-                    cid = npc.npcID, // NPC ID
+                    cid = npc.spawnID, // NPC ID
                     slotID = slotID, // Assign slotID
                     speed = npc.npcSpeed, // NPC speed
                     alive = true, // Initialize as alive
@@ -71,6 +109,7 @@ namespace WinFormsApp1
         }
         public List<npcData> GenerateNPCList(List<characterData> playerCharacters, int zoneID)
         {
+            random = new Random();
             string connectionString = "Server=localhost;Database=world;User ID=root;Password=123321;";
             MySqlConnection connection = new MySqlConnection(connectionString);
             List<npcData> npcList = new List<npcData>();
@@ -102,7 +141,9 @@ namespace WinFormsApp1
                 {
                     npcData npc = new npcData
                     {
-                        npcID = reader.GetInt32("npcID"),
+
+                        spawnID = Guid.NewGuid().GetHashCode(),
+                       
                         npcName = reader.GetString("npcName"),
                         npcMaxHP = reader.GetInt32("npcHP"),
                         npcCurrentHP = reader.GetInt32("npcHP"),
@@ -122,6 +163,8 @@ namespace WinFormsApp1
                         TimeUntilNextAction = 2500 - (reader.GetInt32("npcSpeed") * reader.GetInt32("npcFocus")),
                         maxOnScreen = reader.GetInt32("maxOnScreen")
                     };
+                    npc.npcID = npc.spawnID;
+                    Debug.WriteLine("Added spawn ID: " + npc.spawnID);
                     npc.loadActions();
                     npc.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
                     availableNPCs.Add(npc);
@@ -133,15 +176,43 @@ namespace WinFormsApp1
                 while (totalNPCExp < totalPartyMaxEXP && npcList.Count < 10)
                 {
                     int index = rand.Next(availableNPCs.Count);
-                    npcData selectedNPC = availableNPCs[index];
+                    npcData originalNPC = availableNPCs[index];
 
-                    if (totalNPCExp + selectedNPC.npcEXPValue <= upperLimitEXP)
+                    // Create a new instance of npcData and copy the properties
+                    npcData newNPC = new npcData
                     {
-                        npcList.Add(selectedNPC);
-                        totalNPCExp += selectedNPC.npcEXPValue;
+                        spawnID = Guid.NewGuid().GetHashCode(),
+                        npcName = originalNPC.npcName,
+                        npcMaxHP = originalNPC.npcMaxHP,
+                        npcCurrentHP = originalNPC.npcCurrentHP,
+                        npcMaxMana = originalNPC.npcMaxMana,
+                        npcCurrentMana = originalNPC.npcCurrentMana,
+                        npcMaxEnergy = originalNPC.npcMaxEnergy,
+                        npcCurrentEnergy = originalNPC.npcCurrentEnergy,
+                        npcStrength = originalNPC.npcStrength,
+                        npcDex = originalNPC.npcDex,
+                        npcIntelligence = originalNPC.npcIntelligence,
+                        npcSpeed = originalNPC.npcSpeed,
+                        npcFocus = originalNPC.npcFocus,
+                        npcEXPValue = originalNPC.npcEXPValue,
+                        npcSkill1 = originalNPC.npcSkill1,
+                        npcSkill2 = originalNPC.npcSkill2,
+                        npcSkill3 = originalNPC.npcSkill3,
+                        TimeUntilNextAction = originalNPC.TimeUntilNextAction,
+                        maxOnScreen = originalNPC.maxOnScreen
+                    };
+                    newNPC.npcID = newNPC.spawnID;
+                    newNPC.loadActions();
+                    newNPC.AvailableActions.Add(persistantData.actionLibrary.MeleeAttackAction);
+
+                    if (totalNPCExp + newNPC.npcEXPValue <= upperLimitEXP)
+                    {
+                        npcList.Add(newNPC);
+                        totalNPCExp += newNPC.npcEXPValue;
                     }
                 }
             }
+            
             catch (Exception ex)
             {
                 // Handle the exception (e.g., log the error, show an error message, etc.)
@@ -327,12 +398,13 @@ namespace WinFormsApp1
                 cmd.Parameters.AddWithValue("@accountId", accountId);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
-                Debug.WriteLine("Checking...");
                 while (reader.Read())
                 {
                     characterData character = new characterData
                     {
                         charName = reader.GetString("charName"),
+                        charBackgroundBonus = reader.GetInt32("charBackgroundBonus"),
+                        charUID = reader.GetInt32("charuid"),
                         charMaxHP = reader.GetInt32("charMaxHP"),
                         charCurrentHP = reader.GetInt32("charCurrentHP"),
                         charMaxMana = reader.GetInt32("charMaxMana"),
@@ -353,7 +425,6 @@ namespace WinFormsApp1
                         statPoints = reader.GetInt32("statPoints")
                         // Add other fields as needed
                     };
-                    Debug.WriteLine("adding character...");
                     characterList.Add(character);
                 }
             }
@@ -408,6 +479,13 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
+        private Random random;
+
+        public int GenerateRandomNumber()
+        {
+            return random.Next(1, 1001);
+        }
+    
 
         public bool RegisterChatUser(string nickName, int UID)
         {
@@ -455,7 +533,57 @@ namespace WinFormsApp1
                 connection.Close();
             }
         }
+        public void SaveCharacter(characterData character)
+        {
 
+            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string sql = "UPDATE characters SET charMaxHP = @charMaxHP, charCurrentHP = @charCurrentHP, charMaxMana = @charMaxMana, " +
+                             "charCurrentMana = @charCurrentMana, charMaxEnergy = @charMaxEnergy, charCurrentEnergy = @charCurrentEnergy, " +
+                             "charStrength = @charStrength, charDex = @charDex, charIntelligence = @charIntelligence, charFocus = @charFocus, " +
+                             "charSpeed = @charSpeed, charMaxEXP = @charMaxEXP, charCurrentEXP = @charCurrentEXP, charBackgroundBonus = @charBackgroundBonus, " +
+                             "charSkill1 = @charSkill1, charSkill2 = @charSkill2, charSkill3 = @charSkill3, skillPoints = @skillPoints, statPoints = @statPoints " +
+                             "WHERE charUID = @charUID;";
+                try
+                {
+
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@charMaxHP", character.charMaxHP);
+                        cmd.Parameters.AddWithValue("@charCurrentHP", character.charCurrentHP);
+                        cmd.Parameters.AddWithValue("@charMaxMana", character.charMaxMana);
+                        cmd.Parameters.AddWithValue("@charCurrentMana", character.charCurrentMana);
+                        cmd.Parameters.AddWithValue("@charMaxEnergy", character.charMaxEnergy);
+                        cmd.Parameters.AddWithValue("@charCurrentEnergy", character.charCurrentEnergy);
+                        cmd.Parameters.AddWithValue("@charStrength", character.charStrength);
+                        cmd.Parameters.AddWithValue("@charDex", character.charDex);
+                        cmd.Parameters.AddWithValue("@charIntelligence", character.charIntelligence);
+                        cmd.Parameters.AddWithValue("@charFocus", character.charFocus);
+                        cmd.Parameters.AddWithValue("@charSpeed", character.charSpeed);
+                        cmd.Parameters.AddWithValue("@charMaxEXP", character.charMaxEXP);
+                        cmd.Parameters.AddWithValue("@charCurrentEXP", character.charCurrentEXP);
+                        cmd.Parameters.AddWithValue("@charBackgroundBonus", character.charBackgroundBonus);
+                        cmd.Parameters.AddWithValue("@charSkill1", character.charSkill1);
+                        cmd.Parameters.AddWithValue("@charSkill2", character.charSkill2);
+                        cmd.Parameters.AddWithValue("@charSkill3", character.charSkill3);
+                        cmd.Parameters.AddWithValue("@skillPoints", character.skillPoints);
+                        cmd.Parameters.AddWithValue("@statPoints", character.statPoints);
+                        cmd.Parameters.AddWithValue("@charUID", character.charUID);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                    throw;
+                }
+                
+            }
+        }
         public bool SendMessage(string sender, string message)
         {
 

@@ -29,6 +29,7 @@ namespace WinFormsApp1
         public int npcSkill3;
         public int maxOnScreen;
         public int zoneID;
+        public int spawnID;
         public float TimeUntilNextAction;
 
         public List<GameAction> AvailableActions { get; set; }
