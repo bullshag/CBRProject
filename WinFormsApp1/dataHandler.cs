@@ -10,6 +10,7 @@ using System.Diagnostics;
 using static WinFormsApp1.battleHandler;
 using CBPRM;
 using static CBPRM.actionLibrary;
+using System.Configuration;
 
 namespace WinFormsApp1
 {
@@ -46,6 +47,43 @@ namespace WinFormsApp1
 
             return characterList;
         }
+        public bool DeleteCharacter(int characterId)
+        {
+            string connectionString = "Server=localhost;Database=accounts;User ID=root;Password=123321;";
+            string deleteQuery = "DELETE FROM Characters WHERE charuid = @CharacterId";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@CharacterId", characterId);
+
+                    try
+                    {
+                        connection.Open();
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Remove the character from the friendlyCharList
+                        characterSlot selectedCharSlot = persistantData.battleScreen.friendlyCharList.FirstOrDefault(c => c._charData.charUID == characterId);
+                        characterData characterToRemove = selectedCharSlot._charData;
+                        if (characterToRemove != null)
+                        {
+                            persistantData.battleScreen.friendlyCharList.Remove(selectedCharSlot);
+                            persistantData.characterList.Remove(characterToRemove);
+                        }
+
+                        return rowsAffected > 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        // Log exception
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         public List<npcSlot> GenerateNpcSlotList(List<npcData> npcDataList)
         {
@@ -365,6 +403,7 @@ namespace WinFormsApp1
                     characterData character = new characterData
                     {
                         charName = reader.GetString("charName"),
+                        charBackgroundBonus = reader.GetInt32("charBackgroundBonus"),
                         charUID = reader.GetInt32("charuid"),
                         charMaxHP = reader.GetInt32("charMaxHP"),
                         charCurrentHP = reader.GetInt32("charCurrentHP"),

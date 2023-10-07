@@ -43,6 +43,10 @@ namespace WinFormsApp1
             listBox1.SelectedIndex = 0;
                 characterPanel_noChar.Visible = false;
                 characterPanel_foundChar.Visible = true;
+            } else
+            {
+                characterPanel_noChar.Visible = true;
+                characterPanel_foundChar.Visible = false;
             }
 
 
@@ -80,8 +84,6 @@ namespace WinFormsApp1
         {
             if (checkBox1.Checked) { button7.Enabled = true; } else { button7.Enabled = false; }
         }
-
-
 
         private void timer1_Tick(object sender, EventArgs e)
         {

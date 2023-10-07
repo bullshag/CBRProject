@@ -102,6 +102,28 @@
             energyBar8 = new ProgressBar();
             manaBar8 = new ProgressBar();
             hpBar8 = new ProgressBar();
+            gameLoopTimer = new System.Windows.Forms.Timer(components);
+            richTextBox1 = new RichTextBox();
+            timer1 = new System.Windows.Forms.Timer(components);
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            tabControl2 = new TabControl();
+            tabPage3 = new TabPage();
+            npc_charWindow7 = new GroupBox();
+            npc_hpBar7 = new ProgressBar();
+            npc_manaBar7 = new ProgressBar();
+            npc_energyBar7 = new ProgressBar();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
+            npc_charWindow8 = new GroupBox();
+            npc_hpBar8 = new ProgressBar();
+            npc_manaBar8 = new ProgressBar();
+            npc_energyBar8 = new ProgressBar();
+            label22 = new Label();
+            label23 = new Label();
+            label24 = new Label();
             npc_charWindow1 = new GroupBox();
             npc_hpBar1 = new ProgressBar();
             npc_manaBar1 = new ProgressBar();
@@ -109,6 +131,27 @@
             label19 = new Label();
             label20 = new Label();
             label21 = new Label();
+            npc_charWindow10 = new GroupBox();
+            npc_hpBar10 = new ProgressBar();
+            npc_manaBar10 = new ProgressBar();
+            npc_energyBar10 = new ProgressBar();
+            label28 = new Label();
+            label29 = new Label();
+            label30 = new Label();
+            npc_charWindow6 = new GroupBox();
+            npc_hpBar6 = new ProgressBar();
+            npc_manaBar6 = new ProgressBar();
+            npc_energyBar6 = new ProgressBar();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            npc_charWindow9 = new GroupBox();
+            npc_hpBar9 = new ProgressBar();
+            npc_manaBar9 = new ProgressBar();
+            npc_energyBar9 = new ProgressBar();
+            label25 = new Label();
+            label26 = new Label();
+            label27 = new Label();
             npc_charWindow2 = new GroupBox();
             npc_hpBar2 = new ProgressBar();
             npc_manaBar2 = new ProgressBar();
@@ -137,44 +180,6 @@
             label10 = new Label();
             label11 = new Label();
             label12 = new Label();
-            npc_charWindow6 = new GroupBox();
-            npc_hpBar6 = new ProgressBar();
-            npc_manaBar6 = new ProgressBar();
-            npc_energyBar6 = new ProgressBar();
-            label13 = new Label();
-            label14 = new Label();
-            label15 = new Label();
-            npc_charWindow7 = new GroupBox();
-            npc_hpBar7 = new ProgressBar();
-            npc_manaBar7 = new ProgressBar();
-            npc_energyBar7 = new ProgressBar();
-            label16 = new Label();
-            label17 = new Label();
-            label18 = new Label();
-            npc_charWindow8 = new GroupBox();
-            npc_hpBar8 = new ProgressBar();
-            npc_manaBar8 = new ProgressBar();
-            npc_energyBar8 = new ProgressBar();
-            label22 = new Label();
-            label23 = new Label();
-            label24 = new Label();
-            npc_charWindow9 = new GroupBox();
-            npc_hpBar9 = new ProgressBar();
-            npc_manaBar9 = new ProgressBar();
-            npc_energyBar9 = new ProgressBar();
-            label25 = new Label();
-            label26 = new Label();
-            label27 = new Label();
-            npc_charWindow10 = new GroupBox();
-            npc_hpBar10 = new ProgressBar();
-            npc_manaBar10 = new ProgressBar();
-            npc_energyBar10 = new ProgressBar();
-            label28 = new Label();
-            label29 = new Label();
-            label30 = new Label();
-            gameLoopTimer = new System.Windows.Forms.Timer(components);
-            richTextBox1 = new RichTextBox();
-            timer1 = new System.Windows.Forms.Timer(components);
             charWindow1.SuspendLayout();
             charWindow2.SuspendLayout();
             charWindow3.SuspendLayout();
@@ -188,16 +193,20 @@
             charWindow9.SuspendLayout();
             charWindow7.SuspendLayout();
             charWindow8.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            panel1.SuspendLayout();
+            tabControl2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            npc_charWindow7.SuspendLayout();
+            npc_charWindow8.SuspendLayout();
             npc_charWindow1.SuspendLayout();
+            npc_charWindow10.SuspendLayout();
+            npc_charWindow6.SuspendLayout();
+            npc_charWindow9.SuspendLayout();
             npc_charWindow2.SuspendLayout();
             npc_charWindow3.SuspendLayout();
             npc_charWindow4.SuspendLayout();
             npc_charWindow5.SuspendLayout();
-            npc_charWindow6.SuspendLayout();
-            npc_charWindow7.SuspendLayout();
-            npc_charWindow8.SuspendLayout();
-            npc_charWindow9.SuspendLayout();
-            npc_charWindow10.SuspendLayout();
             SuspendLayout();
             // 
             // charWindow1
@@ -550,11 +559,13 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(1, 5);
+            flowLayoutPanel1.SetFlowBreak(tabControl1, true);
+            tabControl1.Location = new Point(3, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(304, 582);
             tabControl1.TabIndex = 9;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -931,432 +942,90 @@
             hpBar8.Size = new Size(159, 12);
             hpBar8.TabIndex = 1;
             // 
-            // npc_charWindow1
-            // 
-            npc_charWindow1.BackColor = Color.Firebrick;
-            npc_charWindow1.Controls.Add(npc_hpBar1);
-            npc_charWindow1.Controls.Add(npc_manaBar1);
-            npc_charWindow1.Controls.Add(npc_energyBar1);
-            npc_charWindow1.Controls.Add(label19);
-            npc_charWindow1.Controls.Add(label20);
-            npc_charWindow1.Controls.Add(label21);
-            npc_charWindow1.ForeColor = SystemColors.ActiveCaptionText;
-            npc_charWindow1.Location = new Point(857, 12);
-            npc_charWindow1.Name = "npc_charWindow1";
-            npc_charWindow1.Size = new Size(255, 70);
-            npc_charWindow1.TabIndex = 10;
-            npc_charWindow1.TabStop = false;
-            npc_charWindow1.Text = "groupBox1";
-            npc_charWindow1.Visible = false;
-            // 
-            // npc_hpBar1
-            // 
-            npc_hpBar1.ForeColor = Color.Green;
-            npc_hpBar1.Location = new Point(43, 22);
-            npc_hpBar1.Name = "npc_hpBar1";
-            npc_hpBar1.Size = new Size(206, 12);
-            npc_hpBar1.TabIndex = 1;
-            // 
-            // npc_manaBar1
-            // 
-            npc_manaBar1.Location = new Point(43, 40);
-            npc_manaBar1.Name = "npc_manaBar1";
-            npc_manaBar1.Size = new Size(73, 12);
-            npc_manaBar1.TabIndex = 2;
-            // 
-            // npc_energyBar1
-            // 
-            npc_energyBar1.Location = new Point(162, 40);
-            npc_energyBar1.Name = "npc_energyBar1";
-            npc_energyBar1.Size = new Size(87, 12);
-            npc_energyBar1.TabIndex = 3;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label19.Location = new Point(119, 40);
-            label19.Margin = new Padding(0);
-            label19.Name = "label19";
-            label19.Size = new Size(48, 13);
-            label19.TabIndex = 6;
-            label19.Text = "Energy: ";
-            label19.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label20.Location = new Point(6, 40);
-            label20.Name = "label20";
-            label20.Size = new Size(39, 13);
-            label20.TabIndex = 5;
-            label20.Text = "Mana:";
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label21.Location = new Point(18, 21);
-            label21.Name = "label21";
-            label21.Size = new Size(27, 13);
-            label21.TabIndex = 4;
-            label21.Text = "HP: ";
-            // 
-            // npc_charWindow2
-            // 
-            npc_charWindow2.BackColor = Color.Firebrick;
-            npc_charWindow2.Controls.Add(npc_hpBar2);
-            npc_charWindow2.Controls.Add(npc_manaBar2);
-            npc_charWindow2.Controls.Add(npc_energyBar2);
-            npc_charWindow2.Controls.Add(label1);
-            npc_charWindow2.Controls.Add(label2);
-            npc_charWindow2.Controls.Add(label3);
-            npc_charWindow2.Location = new Point(857, 88);
-            npc_charWindow2.Name = "npc_charWindow2";
-            npc_charWindow2.Size = new Size(255, 70);
-            npc_charWindow2.TabIndex = 11;
-            npc_charWindow2.TabStop = false;
-            npc_charWindow2.Text = "groupBox1";
-            npc_charWindow2.Visible = false;
-            // 
-            // npc_hpBar2
-            // 
-            npc_hpBar2.ForeColor = Color.Green;
-            npc_hpBar2.Location = new Point(43, 22);
-            npc_hpBar2.Name = "npc_hpBar2";
-            npc_hpBar2.Size = new Size(206, 12);
-            npc_hpBar2.TabIndex = 1;
-            // 
-            // npc_manaBar2
-            // 
-            npc_manaBar2.Location = new Point(43, 40);
-            npc_manaBar2.Name = "npc_manaBar2";
-            npc_manaBar2.Size = new Size(73, 12);
-            npc_manaBar2.TabIndex = 2;
-            // 
-            // npc_energyBar2
-            // 
-            npc_energyBar2.Location = new Point(162, 40);
-            npc_energyBar2.Name = "npc_energyBar2";
-            npc_energyBar2.Size = new Size(87, 12);
-            npc_energyBar2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(119, 40);
-            label1.Margin = new Padding(0);
-            label1.Name = "label1";
-            label1.Size = new Size(48, 13);
-            label1.TabIndex = 6;
-            label1.Text = "Energy: ";
-            label1.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(6, 40);
-            label2.Name = "label2";
-            label2.Size = new Size(39, 13);
-            label2.TabIndex = 5;
-            label2.Text = "Mana:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(18, 21);
-            label3.Name = "label3";
-            label3.Size = new Size(27, 13);
-            label3.TabIndex = 4;
-            label3.Text = "HP: ";
-            // 
-            // npc_charWindow3
-            // 
-            npc_charWindow3.BackColor = Color.Firebrick;
-            npc_charWindow3.Controls.Add(npc_hpBar3);
-            npc_charWindow3.Controls.Add(npc_manaBar3);
-            npc_charWindow3.Controls.Add(npc_energyBar3);
-            npc_charWindow3.Controls.Add(label4);
-            npc_charWindow3.Controls.Add(label5);
-            npc_charWindow3.Controls.Add(label6);
-            npc_charWindow3.Location = new Point(857, 164);
-            npc_charWindow3.Name = "npc_charWindow3";
-            npc_charWindow3.Size = new Size(255, 70);
-            npc_charWindow3.TabIndex = 11;
-            npc_charWindow3.TabStop = false;
-            npc_charWindow3.Text = "groupBox1";
-            npc_charWindow3.Visible = false;
-            // 
-            // npc_hpBar3
-            // 
-            npc_hpBar3.ForeColor = Color.Green;
-            npc_hpBar3.Location = new Point(43, 22);
-            npc_hpBar3.Name = "npc_hpBar3";
-            npc_hpBar3.Size = new Size(206, 12);
-            npc_hpBar3.TabIndex = 1;
-            // 
-            // npc_manaBar3
-            // 
-            npc_manaBar3.Location = new Point(43, 40);
-            npc_manaBar3.Name = "npc_manaBar3";
-            npc_manaBar3.Size = new Size(73, 12);
-            npc_manaBar3.TabIndex = 2;
-            // 
-            // npc_energyBar3
-            // 
-            npc_energyBar3.Location = new Point(162, 40);
-            npc_energyBar3.Name = "npc_energyBar3";
-            npc_energyBar3.Size = new Size(87, 12);
-            npc_energyBar3.TabIndex = 3;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(119, 40);
-            label4.Margin = new Padding(0);
-            label4.Name = "label4";
-            label4.Size = new Size(48, 13);
-            label4.TabIndex = 6;
-            label4.Text = "Energy: ";
-            label4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(6, 40);
-            label5.Name = "label5";
-            label5.Size = new Size(39, 13);
-            label5.TabIndex = 5;
-            label5.Text = "Mana:";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(18, 21);
-            label6.Name = "label6";
-            label6.Size = new Size(27, 13);
-            label6.TabIndex = 4;
-            label6.Text = "HP: ";
-            // 
-            // npc_charWindow4
-            // 
-            npc_charWindow4.BackColor = Color.Firebrick;
-            npc_charWindow4.Controls.Add(npc_hpBar4);
-            npc_charWindow4.Controls.Add(npc_manaBar4);
-            npc_charWindow4.Controls.Add(npc_energyBar4);
-            npc_charWindow4.Controls.Add(label7);
-            npc_charWindow4.Controls.Add(label8);
-            npc_charWindow4.Controls.Add(label9);
-            npc_charWindow4.Location = new Point(857, 240);
-            npc_charWindow4.Name = "npc_charWindow4";
-            npc_charWindow4.Size = new Size(255, 70);
-            npc_charWindow4.TabIndex = 11;
-            npc_charWindow4.TabStop = false;
-            npc_charWindow4.Text = "groupBox1";
-            npc_charWindow4.Visible = false;
-            // 
-            // npc_hpBar4
-            // 
-            npc_hpBar4.ForeColor = Color.Green;
-            npc_hpBar4.Location = new Point(43, 22);
-            npc_hpBar4.Name = "npc_hpBar4";
-            npc_hpBar4.Size = new Size(206, 12);
-            npc_hpBar4.TabIndex = 1;
-            // 
-            // npc_manaBar4
-            // 
-            npc_manaBar4.Location = new Point(43, 40);
-            npc_manaBar4.Name = "npc_manaBar4";
-            npc_manaBar4.Size = new Size(73, 12);
-            npc_manaBar4.TabIndex = 2;
-            // 
-            // npc_energyBar4
-            // 
-            npc_energyBar4.Location = new Point(162, 40);
-            npc_energyBar4.Name = "npc_energyBar4";
-            npc_energyBar4.Size = new Size(87, 12);
-            npc_energyBar4.TabIndex = 3;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(119, 40);
-            label7.Margin = new Padding(0);
-            label7.Name = "label7";
-            label7.Size = new Size(48, 13);
-            label7.TabIndex = 6;
-            label7.Text = "Energy: ";
-            label7.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(6, 40);
-            label8.Name = "label8";
-            label8.Size = new Size(39, 13);
-            label8.TabIndex = 5;
-            label8.Text = "Mana:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.Location = new Point(18, 21);
-            label9.Name = "label9";
-            label9.Size = new Size(27, 13);
-            label9.TabIndex = 4;
-            label9.Text = "HP: ";
-            // 
-            // npc_charWindow5
-            // 
-            npc_charWindow5.BackColor = Color.Firebrick;
-            npc_charWindow5.Controls.Add(npc_hpBar5);
-            npc_charWindow5.Controls.Add(npc_manaBar5);
-            npc_charWindow5.Controls.Add(npc_energyBar5);
-            npc_charWindow5.Controls.Add(label10);
-            npc_charWindow5.Controls.Add(label11);
-            npc_charWindow5.Controls.Add(label12);
-            npc_charWindow5.Location = new Point(857, 316);
-            npc_charWindow5.Name = "npc_charWindow5";
-            npc_charWindow5.Size = new Size(255, 70);
-            npc_charWindow5.TabIndex = 11;
-            npc_charWindow5.TabStop = false;
-            npc_charWindow5.Text = "groupBox1";
-            npc_charWindow5.Visible = false;
-            // 
-            // npc_hpBar5
-            // 
-            npc_hpBar5.ForeColor = Color.Green;
-            npc_hpBar5.Location = new Point(43, 22);
-            npc_hpBar5.Name = "npc_hpBar5";
-            npc_hpBar5.Size = new Size(206, 12);
-            npc_hpBar5.TabIndex = 1;
-            // 
-            // npc_manaBar5
-            // 
-            npc_manaBar5.Location = new Point(43, 40);
-            npc_manaBar5.Name = "npc_manaBar5";
-            npc_manaBar5.Size = new Size(73, 12);
-            npc_manaBar5.TabIndex = 2;
-            // 
-            // npc_energyBar5
-            // 
-            npc_energyBar5.Location = new Point(162, 40);
-            npc_energyBar5.Name = "npc_energyBar5";
-            npc_energyBar5.Size = new Size(87, 12);
-            npc_energyBar5.TabIndex = 3;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label10.Location = new Point(119, 40);
-            label10.Margin = new Padding(0);
-            label10.Name = "label10";
-            label10.Size = new Size(48, 13);
-            label10.TabIndex = 6;
-            label10.Text = "Energy: ";
-            label10.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label11.Location = new Point(6, 40);
-            label11.Name = "label11";
-            label11.Size = new Size(39, 13);
-            label11.TabIndex = 5;
-            label11.Text = "Mana:";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label12.Location = new Point(18, 21);
-            label12.Name = "label12";
-            label12.Size = new Size(27, 13);
-            label12.TabIndex = 4;
-            label12.Text = "HP: ";
-            // 
-            // npc_charWindow6
-            // 
-            npc_charWindow6.BackColor = Color.Firebrick;
-            npc_charWindow6.Controls.Add(npc_hpBar6);
-            npc_charWindow6.Controls.Add(npc_manaBar6);
-            npc_charWindow6.Controls.Add(npc_energyBar6);
-            npc_charWindow6.Controls.Add(label13);
-            npc_charWindow6.Controls.Add(label14);
-            npc_charWindow6.Controls.Add(label15);
-            npc_charWindow6.Location = new Point(596, 12);
-            npc_charWindow6.Name = "npc_charWindow6";
-            npc_charWindow6.Size = new Size(255, 70);
-            npc_charWindow6.TabIndex = 11;
-            npc_charWindow6.TabStop = false;
-            npc_charWindow6.Text = "groupBox1";
-            npc_charWindow6.Visible = false;
-            // 
-            // npc_hpBar6
-            // 
-            npc_hpBar6.ForeColor = Color.Green;
-            npc_hpBar6.Location = new Point(43, 22);
-            npc_hpBar6.Name = "npc_hpBar6";
-            npc_hpBar6.Size = new Size(206, 12);
-            npc_hpBar6.TabIndex = 1;
-            // 
-            // npc_manaBar6
-            // 
-            npc_manaBar6.Location = new Point(43, 40);
-            npc_manaBar6.Name = "npc_manaBar6";
-            npc_manaBar6.Size = new Size(73, 12);
-            npc_manaBar6.TabIndex = 2;
-            // 
-            // npc_energyBar6
-            // 
-            npc_energyBar6.Location = new Point(162, 40);
-            npc_energyBar6.Name = "npc_energyBar6";
-            npc_energyBar6.Size = new Size(87, 12);
-            npc_energyBar6.TabIndex = 3;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label13.Location = new Point(119, 40);
-            label13.Margin = new Padding(0);
-            label13.Name = "label13";
-            label13.Size = new Size(48, 13);
-            label13.TabIndex = 6;
-            label13.Text = "Energy: ";
-            label13.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label14.Location = new Point(6, 40);
-            label14.Name = "label14";
-            label14.Size = new Size(39, 13);
-            label14.TabIndex = 5;
-            label14.Text = "Mana:";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label15.Location = new Point(18, 21);
-            label15.Name = "label15";
-            label15.Size = new Size(27, 13);
-            label15.TabIndex = 4;
-            label15.Text = "HP: ";
+            // gameLoopTimer
+            // 
+            gameLoopTimer.Tick += gameLoopTimer_Tick;
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Anchor = AnchorStyles.Bottom;
+            richTextBox1.Location = new Point(3, 458);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.ReadOnly = true;
+            richTextBox1.Size = new Size(669, 120);
+            richTextBox1.TabIndex = 13;
+            richTextBox1.Text = "";
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
+            // 
+            // timer1
+            // 
+            timer1.Interval = 2500;
+            timer1.Tick += timer1_Tick;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(tabControl1);
+            flowLayoutPanel1.Controls.Add(panel1);
+            flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(1275, 588);
+            flowLayoutPanel1.TabIndex = 14;
+            flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(panel2);
+            panel1.Controls.Add(richTextBox1);
+            panel1.Controls.Add(tabControl2);
+            flowLayoutPanel1.SetFlowBreak(panel1, true);
+            panel1.Location = new Point(313, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(954, 582);
+            panel1.TabIndex = 16;
+            panel1.Paint += panel1_Paint;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Transparent;
+            panel2.Location = new Point(1954, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(526, 10);
+            panel2.TabIndex = 17;
+            // 
+            // tabControl2
+            // 
+            tabControl2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            tabControl2.Controls.Add(tabPage3);
+            tabControl2.Location = new Point(668, 0);
+            tabControl2.Multiline = true;
+            tabControl2.Name = "tabControl2";
+            tabControl2.RightToLeft = RightToLeft.No;
+            tabControl2.SelectedIndex = 0;
+            tabControl2.Size = new Size(283, 497);
+            tabControl2.TabIndex = 15;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(npc_charWindow7);
+            tabPage3.Controls.Add(npc_charWindow8);
+            tabPage3.Controls.Add(npc_charWindow1);
+            tabPage3.Controls.Add(npc_charWindow10);
+            tabPage3.Controls.Add(npc_charWindow6);
+            tabPage3.Controls.Add(npc_charWindow9);
+            tabPage3.Controls.Add(npc_charWindow2);
+            tabPage3.Controls.Add(npc_charWindow3);
+            tabPage3.Controls.Add(npc_charWindow4);
+            tabPage3.Controls.Add(npc_charWindow5);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(275, 469);
+            tabPage3.TabIndex = 0;
+            tabPage3.Text = "tabPage3";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // npc_charWindow7
             // 
@@ -1367,9 +1036,9 @@
             npc_charWindow7.Controls.Add(label16);
             npc_charWindow7.Controls.Add(label17);
             npc_charWindow7.Controls.Add(label18);
-            npc_charWindow7.Location = new Point(596, 88);
+            npc_charWindow7.Location = new Point(6, 285);
             npc_charWindow7.Name = "npc_charWindow7";
-            npc_charWindow7.Size = new Size(255, 70);
+            npc_charWindow7.Size = new Size(255, 40);
             npc_charWindow7.TabIndex = 11;
             npc_charWindow7.TabStop = false;
             npc_charWindow7.Text = "groupBox1";
@@ -1438,9 +1107,9 @@
             npc_charWindow8.Controls.Add(label22);
             npc_charWindow8.Controls.Add(label23);
             npc_charWindow8.Controls.Add(label24);
-            npc_charWindow8.Location = new Point(596, 164);
+            npc_charWindow8.Location = new Point(6, 331);
             npc_charWindow8.Name = "npc_charWindow8";
-            npc_charWindow8.Size = new Size(255, 70);
+            npc_charWindow8.Size = new Size(255, 41);
             npc_charWindow8.TabIndex = 12;
             npc_charWindow8.TabStop = false;
             npc_charWindow8.Text = "groupBox1";
@@ -1501,75 +1170,77 @@
             label24.TabIndex = 4;
             label24.Text = "HP: ";
             // 
-            // npc_charWindow9
+            // npc_charWindow1
             // 
-            npc_charWindow9.BackColor = Color.Firebrick;
-            npc_charWindow9.Controls.Add(npc_hpBar9);
-            npc_charWindow9.Controls.Add(npc_manaBar9);
-            npc_charWindow9.Controls.Add(npc_energyBar9);
-            npc_charWindow9.Controls.Add(label25);
-            npc_charWindow9.Controls.Add(label26);
-            npc_charWindow9.Controls.Add(label27);
-            npc_charWindow9.Location = new Point(596, 240);
-            npc_charWindow9.Name = "npc_charWindow9";
-            npc_charWindow9.Size = new Size(255, 70);
-            npc_charWindow9.TabIndex = 11;
-            npc_charWindow9.TabStop = false;
-            npc_charWindow9.Text = "groupBox1";
-            npc_charWindow9.Visible = false;
+            npc_charWindow1.BackColor = Color.Firebrick;
+            npc_charWindow1.Controls.Add(npc_hpBar1);
+            npc_charWindow1.Controls.Add(npc_manaBar1);
+            npc_charWindow1.Controls.Add(npc_energyBar1);
+            npc_charWindow1.Controls.Add(label19);
+            npc_charWindow1.Controls.Add(label20);
+            npc_charWindow1.Controls.Add(label21);
+            npc_charWindow1.ForeColor = SystemColors.ActiveCaptionText;
+            npc_charWindow1.Location = new Point(6, 6);
+            npc_charWindow1.Name = "npc_charWindow1";
+            npc_charWindow1.Size = new Size(255, 41);
+            npc_charWindow1.TabIndex = 10;
+            npc_charWindow1.TabStop = false;
+            npc_charWindow1.Text = "groupBox1";
+            npc_charWindow1.Visible = false;
             // 
-            // npc_hpBar9
+            // npc_hpBar1
             // 
-            npc_hpBar9.Location = new Point(43, 22);
-            npc_hpBar9.Name = "npc_hpBar9";
-            npc_hpBar9.Size = new Size(206, 12);
-            npc_hpBar9.TabIndex = 1;
+            npc_hpBar1.ForeColor = Color.Green;
+            npc_hpBar1.Location = new Point(43, 22);
+            npc_hpBar1.Name = "npc_hpBar1";
+            npc_hpBar1.Size = new Size(206, 12);
+            npc_hpBar1.TabIndex = 1;
             // 
-            // npc_manaBar9
+            // npc_manaBar1
             // 
-            npc_manaBar9.Location = new Point(43, 40);
-            npc_manaBar9.Name = "npc_manaBar9";
-            npc_manaBar9.Size = new Size(73, 12);
-            npc_manaBar9.TabIndex = 2;
+            npc_manaBar1.Location = new Point(43, 40);
+            npc_manaBar1.Name = "npc_manaBar1";
+            npc_manaBar1.Size = new Size(73, 12);
+            npc_manaBar1.TabIndex = 2;
             // 
-            // npc_energyBar9
+            // npc_energyBar1
             // 
-            npc_energyBar9.Location = new Point(162, 40);
-            npc_energyBar9.Name = "npc_energyBar9";
-            npc_energyBar9.Size = new Size(87, 12);
-            npc_energyBar9.TabIndex = 3;
+            npc_energyBar1.Location = new Point(162, 40);
+            npc_energyBar1.Name = "npc_energyBar1";
+            npc_energyBar1.Size = new Size(87, 12);
+            npc_energyBar1.TabIndex = 3;
             // 
-            // label25
+            // label19
             // 
-            label25.AutoSize = true;
-            label25.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label25.Location = new Point(119, 40);
-            label25.Margin = new Padding(0);
-            label25.Name = "label25";
-            label25.Size = new Size(48, 13);
-            label25.TabIndex = 6;
-            label25.Text = "Energy: ";
-            label25.TextAlign = ContentAlignment.MiddleRight;
+            label19.AutoSize = true;
+            label19.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label19.Location = new Point(119, 40);
+            label19.Margin = new Padding(0);
+            label19.Name = "label19";
+            label19.Size = new Size(48, 13);
+            label19.TabIndex = 6;
+            label19.Text = "Energy: ";
+            label19.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // label26
+            // label20
             // 
-            label26.AutoSize = true;
-            label26.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label26.Location = new Point(6, 40);
-            label26.Name = "label26";
-            label26.Size = new Size(39, 13);
-            label26.TabIndex = 5;
-            label26.Text = "Mana:";
+            label20.AutoSize = true;
+            label20.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label20.Location = new Point(6, 40);
+            label20.Name = "label20";
+            label20.Size = new Size(39, 13);
+            label20.TabIndex = 5;
+            label20.Text = "Mana:";
             // 
-            // label27
+            // label21
             // 
-            label27.AutoSize = true;
-            label27.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
-            label27.Location = new Point(18, 21);
-            label27.Name = "label27";
-            label27.Size = new Size(27, 13);
-            label27.TabIndex = 4;
-            label27.Text = "HP: ";
+            label21.AutoSize = true;
+            label21.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label21.Location = new Point(18, 21);
+            label21.Name = "label21";
+            label21.Size = new Size(27, 13);
+            label21.TabIndex = 4;
+            label21.Text = "HP: ";
             // 
             // npc_charWindow10
             // 
@@ -1580,9 +1251,9 @@
             npc_charWindow10.Controls.Add(label28);
             npc_charWindow10.Controls.Add(label29);
             npc_charWindow10.Controls.Add(label30);
-            npc_charWindow10.Location = new Point(596, 316);
+            npc_charWindow10.Location = new Point(6, 423);
             npc_charWindow10.Name = "npc_charWindow10";
-            npc_charWindow10.Size = new Size(255, 70);
+            npc_charWindow10.Size = new Size(255, 41);
             npc_charWindow10.TabIndex = 11;
             npc_charWindow10.TabStop = false;
             npc_charWindow10.Text = "groupBox1";
@@ -1642,42 +1313,437 @@
             label30.TabIndex = 4;
             label30.Text = "HP: ";
             // 
-            // gameLoopTimer
+            // npc_charWindow6
             // 
-            gameLoopTimer.Tick += gameLoopTimer_Tick;
+            npc_charWindow6.BackColor = Color.Firebrick;
+            npc_charWindow6.Controls.Add(npc_hpBar6);
+            npc_charWindow6.Controls.Add(npc_manaBar6);
+            npc_charWindow6.Controls.Add(npc_energyBar6);
+            npc_charWindow6.Controls.Add(label13);
+            npc_charWindow6.Controls.Add(label14);
+            npc_charWindow6.Controls.Add(label15);
+            npc_charWindow6.Location = new Point(6, 237);
+            npc_charWindow6.Name = "npc_charWindow6";
+            npc_charWindow6.Size = new Size(255, 42);
+            npc_charWindow6.TabIndex = 11;
+            npc_charWindow6.TabStop = false;
+            npc_charWindow6.Text = "groupBox1";
+            npc_charWindow6.Visible = false;
             // 
-            // richTextBox1
+            // npc_hpBar6
             // 
-            richTextBox1.Location = new Point(311, 392);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(801, 191);
-            richTextBox1.TabIndex = 13;
-            richTextBox1.Text = "";
-            richTextBox1.TextChanged += richTextBox1_TextChanged;
+            npc_hpBar6.ForeColor = Color.Green;
+            npc_hpBar6.Location = new Point(43, 22);
+            npc_hpBar6.Name = "npc_hpBar6";
+            npc_hpBar6.Size = new Size(206, 12);
+            npc_hpBar6.TabIndex = 1;
             // 
-            // timer1
+            // npc_manaBar6
             // 
-            timer1.Interval = 2500;
-            timer1.Tick += timer1_Tick;
+            npc_manaBar6.Location = new Point(43, 40);
+            npc_manaBar6.Name = "npc_manaBar6";
+            npc_manaBar6.Size = new Size(73, 12);
+            npc_manaBar6.TabIndex = 2;
+            // 
+            // npc_energyBar6
+            // 
+            npc_energyBar6.Location = new Point(162, 40);
+            npc_energyBar6.Name = "npc_energyBar6";
+            npc_energyBar6.Size = new Size(87, 12);
+            npc_energyBar6.TabIndex = 3;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label13.Location = new Point(119, 40);
+            label13.Margin = new Padding(0);
+            label13.Name = "label13";
+            label13.Size = new Size(48, 13);
+            label13.TabIndex = 6;
+            label13.Text = "Energy: ";
+            label13.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label14.Location = new Point(6, 40);
+            label14.Name = "label14";
+            label14.Size = new Size(39, 13);
+            label14.TabIndex = 5;
+            label14.Text = "Mana:";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label15.Location = new Point(18, 21);
+            label15.Name = "label15";
+            label15.Size = new Size(27, 13);
+            label15.TabIndex = 4;
+            label15.Text = "HP: ";
+            // 
+            // npc_charWindow9
+            // 
+            npc_charWindow9.BackColor = Color.Firebrick;
+            npc_charWindow9.Controls.Add(npc_hpBar9);
+            npc_charWindow9.Controls.Add(npc_manaBar9);
+            npc_charWindow9.Controls.Add(npc_energyBar9);
+            npc_charWindow9.Controls.Add(label25);
+            npc_charWindow9.Controls.Add(label26);
+            npc_charWindow9.Controls.Add(label27);
+            npc_charWindow9.Location = new Point(6, 378);
+            npc_charWindow9.Name = "npc_charWindow9";
+            npc_charWindow9.Size = new Size(255, 41);
+            npc_charWindow9.TabIndex = 11;
+            npc_charWindow9.TabStop = false;
+            npc_charWindow9.Text = "groupBox1";
+            npc_charWindow9.Visible = false;
+            // 
+            // npc_hpBar9
+            // 
+            npc_hpBar9.Location = new Point(43, 22);
+            npc_hpBar9.Name = "npc_hpBar9";
+            npc_hpBar9.Size = new Size(206, 12);
+            npc_hpBar9.TabIndex = 1;
+            // 
+            // npc_manaBar9
+            // 
+            npc_manaBar9.Location = new Point(43, 40);
+            npc_manaBar9.Name = "npc_manaBar9";
+            npc_manaBar9.Size = new Size(73, 12);
+            npc_manaBar9.TabIndex = 2;
+            // 
+            // npc_energyBar9
+            // 
+            npc_energyBar9.Location = new Point(162, 40);
+            npc_energyBar9.Name = "npc_energyBar9";
+            npc_energyBar9.Size = new Size(87, 12);
+            npc_energyBar9.TabIndex = 3;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label25.Location = new Point(119, 40);
+            label25.Margin = new Padding(0);
+            label25.Name = "label25";
+            label25.Size = new Size(48, 13);
+            label25.TabIndex = 6;
+            label25.Text = "Energy: ";
+            label25.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label26.Location = new Point(6, 40);
+            label26.Name = "label26";
+            label26.Size = new Size(39, 13);
+            label26.TabIndex = 5;
+            label26.Text = "Mana:";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label27.Location = new Point(18, 21);
+            label27.Name = "label27";
+            label27.Size = new Size(27, 13);
+            label27.TabIndex = 4;
+            label27.Text = "HP: ";
+            // 
+            // npc_charWindow2
+            // 
+            npc_charWindow2.BackColor = Color.Firebrick;
+            npc_charWindow2.Controls.Add(npc_hpBar2);
+            npc_charWindow2.Controls.Add(npc_manaBar2);
+            npc_charWindow2.Controls.Add(npc_energyBar2);
+            npc_charWindow2.Controls.Add(label1);
+            npc_charWindow2.Controls.Add(label2);
+            npc_charWindow2.Controls.Add(label3);
+            npc_charWindow2.Location = new Point(6, 53);
+            npc_charWindow2.Name = "npc_charWindow2";
+            npc_charWindow2.Size = new Size(255, 40);
+            npc_charWindow2.TabIndex = 11;
+            npc_charWindow2.TabStop = false;
+            npc_charWindow2.Text = "groupBox1";
+            npc_charWindow2.Visible = false;
+            // 
+            // npc_hpBar2
+            // 
+            npc_hpBar2.ForeColor = Color.Green;
+            npc_hpBar2.Location = new Point(43, 22);
+            npc_hpBar2.Name = "npc_hpBar2";
+            npc_hpBar2.Size = new Size(206, 12);
+            npc_hpBar2.TabIndex = 1;
+            // 
+            // npc_manaBar2
+            // 
+            npc_manaBar2.Location = new Point(43, 40);
+            npc_manaBar2.Name = "npc_manaBar2";
+            npc_manaBar2.Size = new Size(73, 12);
+            npc_manaBar2.TabIndex = 2;
+            // 
+            // npc_energyBar2
+            // 
+            npc_energyBar2.Location = new Point(162, 40);
+            npc_energyBar2.Name = "npc_energyBar2";
+            npc_energyBar2.Size = new Size(87, 12);
+            npc_energyBar2.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(119, 40);
+            label1.Margin = new Padding(0);
+            label1.Name = "label1";
+            label1.Size = new Size(48, 13);
+            label1.TabIndex = 6;
+            label1.Text = "Energy: ";
+            label1.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(6, 40);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 13);
+            label2.TabIndex = 5;
+            label2.Text = "Mana:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Location = new Point(18, 21);
+            label3.Name = "label3";
+            label3.Size = new Size(27, 13);
+            label3.TabIndex = 4;
+            label3.Text = "HP: ";
+            // 
+            // npc_charWindow3
+            // 
+            npc_charWindow3.BackColor = Color.Firebrick;
+            npc_charWindow3.Controls.Add(npc_hpBar3);
+            npc_charWindow3.Controls.Add(npc_manaBar3);
+            npc_charWindow3.Controls.Add(npc_energyBar3);
+            npc_charWindow3.Controls.Add(label4);
+            npc_charWindow3.Controls.Add(label5);
+            npc_charWindow3.Controls.Add(label6);
+            npc_charWindow3.Location = new Point(6, 99);
+            npc_charWindow3.Name = "npc_charWindow3";
+            npc_charWindow3.Size = new Size(255, 40);
+            npc_charWindow3.TabIndex = 11;
+            npc_charWindow3.TabStop = false;
+            npc_charWindow3.Text = "groupBox1";
+            npc_charWindow3.Visible = false;
+            // 
+            // npc_hpBar3
+            // 
+            npc_hpBar3.ForeColor = Color.Green;
+            npc_hpBar3.Location = new Point(43, 22);
+            npc_hpBar3.Name = "npc_hpBar3";
+            npc_hpBar3.Size = new Size(206, 12);
+            npc_hpBar3.TabIndex = 1;
+            // 
+            // npc_manaBar3
+            // 
+            npc_manaBar3.Location = new Point(43, 40);
+            npc_manaBar3.Name = "npc_manaBar3";
+            npc_manaBar3.Size = new Size(73, 12);
+            npc_manaBar3.TabIndex = 2;
+            // 
+            // npc_energyBar3
+            // 
+            npc_energyBar3.Location = new Point(162, 40);
+            npc_energyBar3.Name = "npc_energyBar3";
+            npc_energyBar3.Size = new Size(87, 12);
+            npc_energyBar3.TabIndex = 3;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(119, 40);
+            label4.Margin = new Padding(0);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 13);
+            label4.TabIndex = 6;
+            label4.Text = "Energy: ";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(6, 40);
+            label5.Name = "label5";
+            label5.Size = new Size(39, 13);
+            label5.TabIndex = 5;
+            label5.Text = "Mana:";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Location = new Point(18, 21);
+            label6.Name = "label6";
+            label6.Size = new Size(27, 13);
+            label6.TabIndex = 4;
+            label6.Text = "HP: ";
+            // 
+            // npc_charWindow4
+            // 
+            npc_charWindow4.BackColor = Color.Firebrick;
+            npc_charWindow4.Controls.Add(npc_hpBar4);
+            npc_charWindow4.Controls.Add(npc_manaBar4);
+            npc_charWindow4.Controls.Add(npc_energyBar4);
+            npc_charWindow4.Controls.Add(label7);
+            npc_charWindow4.Controls.Add(label8);
+            npc_charWindow4.Controls.Add(label9);
+            npc_charWindow4.Location = new Point(6, 145);
+            npc_charWindow4.Name = "npc_charWindow4";
+            npc_charWindow4.Size = new Size(255, 42);
+            npc_charWindow4.TabIndex = 11;
+            npc_charWindow4.TabStop = false;
+            npc_charWindow4.Text = "groupBox1";
+            npc_charWindow4.Visible = false;
+            // 
+            // npc_hpBar4
+            // 
+            npc_hpBar4.ForeColor = Color.Green;
+            npc_hpBar4.Location = new Point(43, 22);
+            npc_hpBar4.Name = "npc_hpBar4";
+            npc_hpBar4.Size = new Size(206, 12);
+            npc_hpBar4.TabIndex = 1;
+            // 
+            // npc_manaBar4
+            // 
+            npc_manaBar4.Location = new Point(43, 40);
+            npc_manaBar4.Name = "npc_manaBar4";
+            npc_manaBar4.Size = new Size(73, 12);
+            npc_manaBar4.TabIndex = 2;
+            // 
+            // npc_energyBar4
+            // 
+            npc_energyBar4.Location = new Point(162, 40);
+            npc_energyBar4.Name = "npc_energyBar4";
+            npc_energyBar4.Size = new Size(87, 12);
+            npc_energyBar4.TabIndex = 3;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Location = new Point(119, 40);
+            label7.Margin = new Padding(0);
+            label7.Name = "label7";
+            label7.Size = new Size(48, 13);
+            label7.TabIndex = 6;
+            label7.Text = "Energy: ";
+            label7.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label8.Location = new Point(6, 40);
+            label8.Name = "label8";
+            label8.Size = new Size(39, 13);
+            label8.TabIndex = 5;
+            label8.Text = "Mana:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label9.Location = new Point(18, 21);
+            label9.Name = "label9";
+            label9.Size = new Size(27, 13);
+            label9.TabIndex = 4;
+            label9.Text = "HP: ";
+            // 
+            // npc_charWindow5
+            // 
+            npc_charWindow5.BackColor = Color.Firebrick;
+            npc_charWindow5.Controls.Add(npc_hpBar5);
+            npc_charWindow5.Controls.Add(npc_manaBar5);
+            npc_charWindow5.Controls.Add(npc_energyBar5);
+            npc_charWindow5.Controls.Add(label10);
+            npc_charWindow5.Controls.Add(label11);
+            npc_charWindow5.Controls.Add(label12);
+            npc_charWindow5.Location = new Point(6, 193);
+            npc_charWindow5.Name = "npc_charWindow5";
+            npc_charWindow5.Size = new Size(255, 40);
+            npc_charWindow5.TabIndex = 11;
+            npc_charWindow5.TabStop = false;
+            npc_charWindow5.Text = "groupBox1";
+            npc_charWindow5.Visible = false;
+            // 
+            // npc_hpBar5
+            // 
+            npc_hpBar5.ForeColor = Color.Green;
+            npc_hpBar5.Location = new Point(43, 22);
+            npc_hpBar5.Name = "npc_hpBar5";
+            npc_hpBar5.Size = new Size(206, 12);
+            npc_hpBar5.TabIndex = 1;
+            // 
+            // npc_manaBar5
+            // 
+            npc_manaBar5.Location = new Point(43, 40);
+            npc_manaBar5.Name = "npc_manaBar5";
+            npc_manaBar5.Size = new Size(73, 12);
+            npc_manaBar5.TabIndex = 2;
+            // 
+            // npc_energyBar5
+            // 
+            npc_energyBar5.Location = new Point(162, 40);
+            npc_energyBar5.Name = "npc_energyBar5";
+            npc_energyBar5.Size = new Size(87, 12);
+            npc_energyBar5.TabIndex = 3;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label10.Location = new Point(119, 40);
+            label10.Margin = new Padding(0);
+            label10.Name = "label10";
+            label10.Size = new Size(48, 13);
+            label10.TabIndex = 6;
+            label10.Text = "Energy: ";
+            label10.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label11.Location = new Point(6, 40);
+            label11.Name = "label11";
+            label11.Size = new Size(39, 13);
+            label11.TabIndex = 5;
+            label11.Text = "Mana:";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            label12.Location = new Point(18, 21);
+            label12.Name = "label12";
+            label12.Size = new Size(27, 13);
+            label12.TabIndex = 4;
+            label12.Text = "HP: ";
             // 
             // battleScreen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1124, 599);
-            Controls.Add(richTextBox1);
-            Controls.Add(npc_charWindow10);
-            Controls.Add(npc_charWindow9);
-            Controls.Add(npc_charWindow8);
-            Controls.Add(npc_charWindow7);
-            Controls.Add(npc_charWindow6);
-            Controls.Add(npc_charWindow5);
-            Controls.Add(npc_charWindow4);
-            Controls.Add(npc_charWindow3);
-            Controls.Add(npc_charWindow2);
-            Controls.Add(tabControl1);
-            Controls.Add(npc_charWindow1);
+            ClientSize = new Size(1124, 526);
+            Controls.Add(flowLayoutPanel1);
             Name = "battleScreen";
             Text = "Form4";
             Load += battleScreen_Load;
@@ -1704,8 +1770,22 @@
             charWindow7.PerformLayout();
             charWindow8.ResumeLayout(false);
             charWindow8.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            tabControl2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            npc_charWindow7.ResumeLayout(false);
+            npc_charWindow7.PerformLayout();
+            npc_charWindow8.ResumeLayout(false);
+            npc_charWindow8.PerformLayout();
             npc_charWindow1.ResumeLayout(false);
             npc_charWindow1.PerformLayout();
+            npc_charWindow10.ResumeLayout(false);
+            npc_charWindow10.PerformLayout();
+            npc_charWindow6.ResumeLayout(false);
+            npc_charWindow6.PerformLayout();
+            npc_charWindow9.ResumeLayout(false);
+            npc_charWindow9.PerformLayout();
             npc_charWindow2.ResumeLayout(false);
             npc_charWindow2.PerformLayout();
             npc_charWindow3.ResumeLayout(false);
@@ -1714,17 +1794,8 @@
             npc_charWindow4.PerformLayout();
             npc_charWindow5.ResumeLayout(false);
             npc_charWindow5.PerformLayout();
-            npc_charWindow6.ResumeLayout(false);
-            npc_charWindow6.PerformLayout();
-            npc_charWindow7.ResumeLayout(false);
-            npc_charWindow7.PerformLayout();
-            npc_charWindow8.ResumeLayout(false);
-            npc_charWindow8.PerformLayout();
-            npc_charWindow9.ResumeLayout(false);
-            npc_charWindow9.PerformLayout();
-            npc_charWindow10.ResumeLayout(false);
-            npc_charWindow10.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -1768,8 +1839,6 @@
         private ProgressBar manaBar7;
         private ProgressBar hpBar7;
         private GroupBox charWindow8;
-        private Label label20;
-        private Label label21;
         private ProgressBar manaBar8;
         private ProgressBar hpBar8;
         private Label energy_Label1;
@@ -1805,11 +1874,55 @@
         private Label energy_Label9;
         private Label energy_Label7;
         private Label energy_Label8;
+        private System.Windows.Forms.Timer gameLoopTimer;
+        private RichTextBox richTextBox1;
+        private System.Windows.Forms.Timer timer1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Panel panel1;
+        private TabControl tabControl2;
+        private TabPage tabPage3;
+        private GroupBox npc_charWindow7;
+        private ProgressBar npc_hpBar7;
+        private ProgressBar npc_manaBar7;
+        private ProgressBar npc_energyBar7;
+        private Label label16;
+        private Label label17;
+        private Label label18;
+        private GroupBox npc_charWindow8;
+        private ProgressBar npc_hpBar8;
+        private ProgressBar npc_manaBar8;
+        private ProgressBar npc_energyBar8;
+        private Label label22;
+        private Label label23;
+        private Label label24;
         private GroupBox npc_charWindow1;
-        private ProgressBar npc_manaBar1;
         private ProgressBar npc_hpBar1;
+        private ProgressBar npc_manaBar1;
         private ProgressBar npc_energyBar1;
         private Label label19;
+        private Label label20;
+        private Label label21;
+        private GroupBox npc_charWindow10;
+        private ProgressBar npc_hpBar10;
+        private ProgressBar npc_manaBar10;
+        private ProgressBar npc_energyBar10;
+        private Label label28;
+        private Label label29;
+        private Label label30;
+        private GroupBox npc_charWindow6;
+        private ProgressBar npc_hpBar6;
+        private ProgressBar npc_manaBar6;
+        private ProgressBar npc_energyBar6;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private GroupBox npc_charWindow9;
+        private ProgressBar npc_hpBar9;
+        private ProgressBar npc_manaBar9;
+        private ProgressBar npc_energyBar9;
+        private Label label25;
+        private Label label26;
+        private Label label27;
         private GroupBox npc_charWindow2;
         private ProgressBar npc_hpBar2;
         private ProgressBar npc_manaBar2;
@@ -1838,43 +1951,6 @@
         private Label label10;
         private Label label11;
         private Label label12;
-        private GroupBox npc_charWindow6;
-        private ProgressBar npc_hpBar6;
-        private ProgressBar npc_manaBar6;
-        private ProgressBar npc_energyBar6;
-        private Label label13;
-        private Label label14;
-        private Label label15;
-        private GroupBox npc_charWindow7;
-        private ProgressBar npc_hpBar7;
-        private ProgressBar npc_manaBar7;
-        private ProgressBar npc_energyBar7;
-        private Label label16;
-        private Label label17;
-        private Label label18;
-        private GroupBox npc_charWindow8;
-        private ProgressBar npc_hpBar8;
-        private ProgressBar npc_manaBar8;
-        private ProgressBar npc_energyBar8;
-        private Label label22;
-        private Label label23;
-        private Label label24;
-        private GroupBox npc_charWindow9;
-        private ProgressBar npc_hpBar9;
-        private ProgressBar npc_manaBar9;
-        private ProgressBar npc_energyBar9;
-        private Label label25;
-        private Label label26;
-        private Label label27;
-        private GroupBox npc_charWindow10;
-        private ProgressBar npc_hpBar10;
-        private ProgressBar npc_manaBar10;
-        private ProgressBar npc_energyBar10;
-        private Label label28;
-        private Label label29;
-        private Label label30;
-        private System.Windows.Forms.Timer gameLoopTimer;
-        private RichTextBox richTextBox1;
-        private System.Windows.Forms.Timer timer1;
+        private Panel panel2;
     }
 }

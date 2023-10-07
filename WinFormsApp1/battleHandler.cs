@@ -26,6 +26,28 @@ namespace WinFormsApp1
             public npcData _npcData;
         }
 
+        public void DistributeExpAfterBattle(List<characterSlot> characterSlots, List<npcSlot> npcSlots)
+        {
+            // Calculate total EXP from defeated NPCs
+            int totalExp = 0;
+            foreach (var npc in npcSlots)
+            {
+                if (!npc.alive)
+                {
+                    totalExp += npc._npcData.npcEXPValue;
+                }
+            }
+
+            // Distribute EXP among surviving characters
+            foreach (var character in characterSlots)
+            {
+                if (character.alive)
+                {
+                    character._charData.charCurrentEXP += totalExp / characterSlots.Count;
+                } else { persistantData._dataHandler.DeleteCharacter(character._charData.charUID); }
+            }
+        }
+
         public characterData regenerate(characterData characterData)
         {
             characterData returnChar = new characterData();

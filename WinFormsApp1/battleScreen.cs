@@ -10,13 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static WinFormsApp1.battleHandler;
 using Timer = System.Windows.Forms.Timer;
 
 namespace WinFormsApp1
 {
     public partial class battleScreen : Form
     {
-
+        public int expTotal;
         public List<battleHandler.characterSlot> friendlyCharList = new List<battleHandler.characterSlot>();
 
         public List<battleHandler.npcSlot> enemyNpcList = new List<battleHandler.npcSlot>();
@@ -35,6 +36,7 @@ namespace WinFormsApp1
         }
         public void endBattle()
         {
+
             friendlyCharList.Clear();
             enemyNpcList.Clear();
             for (int i = 1; i <= 10; i++)
@@ -58,6 +60,7 @@ namespace WinFormsApp1
         }
         public void updateNpcUI()
         {
+            enemyNpcList.RemoveAll(npc => !npc.alive);
             for (int i = 0; i < enemyNpcList.Count; i++)
             {
                 var currentNpc = enemyNpcList[i];
@@ -99,29 +102,38 @@ namespace WinFormsApp1
                 }
             }
 
-            // Check if all enemy NPCs are down
-            for (int i = 0; i < enemyNpcList.Count; i++)
+            if (enemyNpcList.Count > 0)
             {
-                if (enemyNpcList[i]._npcData.npcCurrentHP > 0)
+                for (int i = 0; i < enemyNpcList.Count; i++)
                 {
-                    allEnemyDown = false;
-                    break;
+                    if (enemyNpcList[i]._npcData.npcCurrentHP > 0)
+                    {
+                        allEnemyDown = false;
+                        break;
+                    }
                 }
+
             }
+            // Check if all enemy NPCs are down
 
             // If all combatants on either side are down, set combatStarted to false
             if (allFriendlyDown || allEnemyDown)
             {
+                persistantData.hubScreen.populateCharacters();
                 gameLoopTimer.Enabled = false;
                 combatStarted = false;
                 if (allFriendlyDown)
                 {
                     MessageBox.Show("You have been defeated!");
+
                 }
                 if (allEnemyDown)
                 {
+                    DistributeExperience(friendlyCharList, enemyNpcList);
                     MessageBox.Show("You are victorious!");
                 }
+                persistantData.battleScreen.Visible = false;
+                persistantData.hubScreen.Visible = true;
             }
         }
         public void updateFriendlyUI()
@@ -186,6 +198,7 @@ namespace WinFormsApp1
         public bool combatStarted;
         public void startBattle()
         {
+            expTotal = 0;
             combatStarted = true;
             generateBattleLists();
             timer1.Enabled = true;
@@ -222,6 +235,10 @@ namespace WinFormsApp1
         }
         public void PerformAction(characterData charData)
         {
+            if (charData.charCurrentHP <= 0)
+            {
+                return;
+            }
             // Randomly select an action from the available actions
             int actionIndex = rand.Next(charData.AvailableActions.Count);
             actionLibrary.GameAction selectedAction = charData.AvailableActions[actionIndex];
@@ -259,10 +276,7 @@ namespace WinFormsApp1
 
 
             // Update the NPC's health
-            Debug.WriteLine("Before Update Hash Codes: " + string.Join(", ", enemyNpcList.Select(n => n._npcData.GetHashCode())));
             UpdateNpcHealth(targetNpc.spawnID, result.damageDealt);
-            Debug.WriteLine("After Update Hash Codes: " + string.Join(", ", enemyNpcList.Select(n => n._npcData.GetHashCode())));
-
 
             // Update the UI if needed
             if (result.damageDealt > 0)
@@ -289,13 +303,23 @@ namespace WinFormsApp1
                 battleHandler.npcSlot npcSlot = enemyNpcList[targetIndex];
                 npcSlot._npcData.npcCurrentHP -= damageDealt;
 
-                if (npcSlot._npcData.npcCurrentHP < 0)
+                if (npcSlot._npcData.npcCurrentHP <= 0 && npcSlot.alive)
                 {
                     npcSlot._npcData.npcCurrentHP = 0;
+                    npcSlot.alive = false;
+                    expTotal += npcSlot._npcData.npcEXPValue;
+                    GroupBox groupBox = (GroupBox)this.Controls.Find("npc_charWindow" + (targetIndex + 1), true).FirstOrDefault();
+                    if (groupBox != null)
+                    {
+                        groupBox.Visible = false;
+                    }
                     CheckCombatStatus();
                 }
+                else
+                {
+                    enemyNpcList[targetIndex] = npcSlot;
+                }
 
-                enemyNpcList[targetIndex] = npcSlot;
 
                 Debug.WriteLine($"Updated NPC with spawnID: {npcSlot._npcData.spawnID}, New HP: {npcSlot._npcData.npcCurrentHP}");
             }
@@ -306,6 +330,7 @@ namespace WinFormsApp1
         }
         public void PerformAction(npcData npcData)
         {
+            if (!combatStarted) { return; }
             // Randomly select an action from the available actions
             Random rand = new Random();
             int actionIndex = rand.Next(npcData.AvailableActions.Count);
@@ -344,14 +369,21 @@ namespace WinFormsApp1
             if (targetCharacter.charCurrentHP <= 0)
             {
                 targetCharacter.charCurrentHP = 0;
+                persistantData._dataHandler.DeleteCharacter(targetCharacter.charUID);
+                richTextBox1.Text += targetCharacter.charName + " has perished!" + Environment.NewLine;
+
                 CheckCombatStatus();
                 // Handle character death here if needed
             }
+            else
+            {
+                // Update the friendlyCharList with the modified targetCharacter
+                battleHandler.characterSlot updatedSlot = friendlyCharList[targetIndex];
+                updatedSlot._charData = targetCharacter;
+                friendlyCharList[targetIndex] = updatedSlot;
 
-            // Update the friendlyCharList with the modified targetCharacter
-            battleHandler.characterSlot updatedSlot = friendlyCharList[targetIndex];
-            updatedSlot._charData = targetCharacter;
-            friendlyCharList[targetIndex] = updatedSlot;
+
+            }
 
             if (result.damageDealt > 0)
             {
@@ -364,7 +396,61 @@ namespace WinFormsApp1
             richTextBox1.ScrollToCaret();
         }
 
+        public void DistributeExperience(List<characterSlot> partyMembers, List<npcSlot> defeatedEnemies)
+        {
 
+
+            // Distribute experience among alive party members
+            foreach (var member in partyMembers)
+            {
+                if (member.alive)
+                {
+                    member._charData.charCurrentEXP += (int)(expTotal / partyMembers.Count); // Evenly distribute
+
+                    richTextBox1.Text += member._charData.charName + " earned " + (expTotal / partyMembers.Count) + " experience points!" + Environment.NewLine;
+
+                    richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                    richTextBox1.ScrollToCaret();                                                           // Check for level up, if you have a method for that
+                }
+            }
+            persistantData.money += (int)(expTotal * 3);
+
+            richTextBox1.Text += "Earned " + (int)(expTotal * 3) + " gold." + Environment.NewLine;
+
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
+            foreach (var friendlyChar in persistantData.battleScreen.friendlyCharList)
+            {
+                // Find the corresponding character in characterList by ID
+                var characterToUpdate = persistantData.characterList.Find(c => c.charUID == friendlyChar._charData.charUID); // Using charUID as the ID field
+
+                if (characterToUpdate != null)
+                {
+                    // Update all fields
+                    characterToUpdate.charName = friendlyChar._charData.charName;
+                    characterToUpdate.charMaxHP = friendlyChar._charData.charMaxHP;
+                    characterToUpdate.charCurrentHP = friendlyChar._charData.charCurrentHP;
+                    characterToUpdate.charMaxMana = friendlyChar._charData.charMaxMana;
+                    characterToUpdate.charCurrentMana = friendlyChar._charData.charCurrentMana;
+                    characterToUpdate.charMaxEnergy = friendlyChar._charData.charMaxEnergy;
+                    characterToUpdate.charCurrentEnergy = friendlyChar._charData.charCurrentEnergy;
+                    characterToUpdate.charStrength = friendlyChar._charData.charStrength;
+                    characterToUpdate.charDex = friendlyChar._charData.charDex;
+                    characterToUpdate.charIntelligence = friendlyChar._charData.charIntelligence;
+                    characterToUpdate.charFocus = friendlyChar._charData.charFocus;
+                    characterToUpdate.charSpeed = friendlyChar._charData.charSpeed;
+                    characterToUpdate.charMaxEXP = friendlyChar._charData.charMaxEXP;
+                    characterToUpdate.charCurrentEXP = friendlyChar._charData.charCurrentEXP;
+                    characterToUpdate.charBackgroundBonus = friendlyChar._charData.charBackgroundBonus;
+                    characterToUpdate.charSkill1 = friendlyChar._charData.charSkill1;
+                    characterToUpdate.charSkill2 = friendlyChar._charData.charSkill2;
+                    characterToUpdate.charSkill3 = friendlyChar._charData.charSkill3;
+                    characterToUpdate.skillPoints = friendlyChar._charData.skillPoints;
+                    characterToUpdate.statPoints = friendlyChar._charData.statPoints;
+                    persistantData._dataHandler.SaveCharacter(characterToUpdate);
+                }
+            }
+        }
         private void gameLoopTimer_Tick(object sender, EventArgs e)
         {
             if (!timer1.Enabled)
@@ -425,6 +511,21 @@ namespace WinFormsApp1
 
 
             }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
